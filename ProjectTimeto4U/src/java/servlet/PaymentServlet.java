@@ -26,7 +26,7 @@ import model.Payment;
  */
 public class PaymentServlet extends HttpServlet {
 
-    @PersistenceUnit(unitName = "FinalProjectWebProPU")
+    @PersistenceUnit(unitName = "ProjectTimeto4UPU")
     EntityManagerFactory emf;
     @Resource
     UserTransaction utx;
