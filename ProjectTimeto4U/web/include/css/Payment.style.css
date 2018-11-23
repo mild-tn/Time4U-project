@@ -13,7 +13,7 @@ body {
   width: 80%;
   min-width: 620px;
   max-width: 700px;
-  height: 360px;
+  height: 400px;
   margin: 50px auto;
   background:whitesmoke;
   border-radius: 9px;
@@ -55,6 +55,7 @@ body {
 .order li {
   display: flex;
   justify-content: space-between;
+  font-size: 10pt;
 }
 
 h2 {

@@ -11,6 +11,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Order List</title>
+        <link rel="icon" type="image/png" sizes="64x64" href="images/oie_transparent.png">
     </head>
     <body>
         <jsp:include page="include/NavBarBackColor.jsp"/>
