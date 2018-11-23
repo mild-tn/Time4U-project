@@ -1,6 +1,6 @@
 package servlet;
 
-import controller.OrdersCustomerJpaController;
+import controller.OrderscustomerJpaController;
 import controller.PaymentJpaController;
 import controller.exceptions.RollbackFailureException;
 import java.io.IOException;
@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
-import model.OrdersCustomer;
+import model.Orderscustomer;
 import model.Payment;
 
 /**
@@ -33,20 +33,23 @@ public class PaymentServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        OrdersCustomer orderCusSession = (OrdersCustomer) session.getAttribute("orderCus");
-        OrdersCustomerJpaController orderCusJpaCtrl = new OrdersCustomerJpaController(utx, emf);
+//        Orderscustomer orderCusSession = (Orderscustomer) session.getAttribute("orderCus");
+        OrderscustomerJpaController orderCusJpaCtrl = new OrderscustomerJpaController(utx, emf);
+        System.out.println("Helloooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
 //         Orderscustomer orderCus = orderCusJpaCtrl.findOrderscustomer(orderCusSession.getOrdernumber());
-        OrdersCustomer orderCus = orderCusJpaCtrl.findOrdersCustomer(1);
+        Orderscustomer orderCus = orderCusJpaCtrl.findOrderscustomer(1);
         String cardHolder = request.getParameter("cardholder");
         String cardNo = request.getParameter("cardno");
         String exp = request.getParameter("exp");
+        System.out.println("EXPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP :" +exp);
         String cvv = request.getParameter("cvv");
         PaymentJpaController paymentJpaCtrl = new PaymentJpaController(utx, emf);
         Payment payment = paymentJpaCtrl.findPayment(cardNo);
         if(payment != null){
             if (cardHolder != null && cardHolder.length() > 0 && cardHolder.equalsIgnoreCase(payment.getCardholder())) {
                 if (cardNo != null && cardNo.length() > 0 && cardNo.length() == 16 && cardNo.equals(payment.getCardnumber())) {
-                    if (exp != null && exp.equals(payment.getExpireYear()+"-"+payment.getExpireMonth())) {
+                        System.out.println("paymenttttttttttttttt "+payment.getExpireYear()+payment.getExpireMonth());
+                    if (exp != null && exp.equals(payment.getExpireMonth()+payment.getExpireYear())) {
                         if (cvv != null && cvv.length() > 0 && cvv.equals(payment.getCvv())) {
                             boolean checkPay = payment.payMent(orderCus.getTotalprice());
                             if (checkPay) {
