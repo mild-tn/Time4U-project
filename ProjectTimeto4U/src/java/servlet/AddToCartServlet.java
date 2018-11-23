@@ -1,0 +1,95 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package servlet;
+
+import controller.ProductJpaController;
+import java.io.IOException;
+import java.io.PrintWriter;
+import javax.annotation.Resource;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnit;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.transaction.UserTransaction;
+import model.Cart;
+import model.LineItem;
+import model.Product;
+
+/**
+ *
+ * @author Mild-TN
+ */
+public class AddToCartServlet extends HttpServlet {
+
+    @PersistenceUnit(unitName = "ProjectTimeto4UPU")
+    EntityManagerFactory emf;
+    @Resource
+    UserTransaction utx;
+    
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+       HttpSession session = request.getSession();
+        if (session.getAttribute("shoppingCart") == null) {
+            session.setAttribute("shoppingCart", new Cart());
+        }
+        String item = request.getParameter("addProductCode");
+        Cart cart = (Cart) session.getAttribute("shoppingCart");
+        ProductJpaController productJpaCtrl = new ProductJpaController(utx, emf);
+        Product product = productJpaCtrl.findProduct(item);
+        LineItem line = new LineItem(product,1);
+        line.setProduct(product);
+        line.setQuantity(line.getQuantity());
+        System.out.println("line"+ line.getProduct() + line.getQuantity() * line.getTotalPrice());
+        cart.add(product);
+        session.setAttribute("shoppingCart",cart);
+        session.setAttribute("productDetail", product);
+        session.setAttribute("line", line);
+        getServletContext().getRequestDispatcher("/ProductDetail.jsp").forward(request, response);
+    }
+
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
+
+}
