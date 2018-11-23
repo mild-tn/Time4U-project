@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package servlet;
 
 import controller.OrdersCustomerJpaController;
@@ -31,7 +26,7 @@ import model.Payment;
  */
 public class PaymentServlet extends HttpServlet {
 
-    @PersistenceUnit(unitName = "ProjectTimeto4UPU")
+    @PersistenceUnit(unitName = "FinalProjectWebProPU")
     EntityManagerFactory emf;
     @Resource
     UserTransaction utx;
@@ -40,47 +35,50 @@ public class PaymentServlet extends HttpServlet {
         HttpSession session = request.getSession();
         OrdersCustomer orderCusSession = (OrdersCustomer) session.getAttribute("orderCus");
         OrdersCustomerJpaController orderCusJpaCtrl = new OrdersCustomerJpaController(utx, emf);
+//         Orderscustomer orderCus = orderCusJpaCtrl.findOrderscustomer(orderCusSession.getOrdernumber());
         OrdersCustomer orderCus = orderCusJpaCtrl.findOrdersCustomer(1);
         String cardHolder = request.getParameter("cardholder");
         String cardNo = request.getParameter("cardno");
         String exp = request.getParameter("exp");
         String cvv = request.getParameter("cvv");
-        if (cardHolder != null && cardHolder.length() > 0) {
-            if (cardNo != null && cardNo.length() > 0) {
-                if (exp != null) {
-                    if (cvv != null && cvv.length() > 0) {
-                        PaymentJpaController paymentJpaCtrl = new PaymentJpaController(utx, emf);
-//                        HistoryJpaController historyJpaCtrl = new HistoryJpaController(utx, emf);
-                        Payment payment = paymentJpaCtrl.findPayment(cardNo);
-                        boolean checkPay = payment.payMent(orderCus.getTotalprice());
-                        if (checkPay) {
-//                            History history = new History(orderCus.getTotalprice(), new Date(), payment.getBalance(), orderCus.getCustomernumber());
-                            try {
-                                paymentJpaCtrl.edit(payment);
-                                session.setAttribute("payment", payment);
-//                                historyJpaCtrl.create(history);
-                                response.sendRedirect("SucessfulPay.jsp");
-                                return;
-                            } catch (RollbackFailureException ex) {
-                                Logger.getLogger(PaymentServlet.class.getName()).log(Level.SEVERE, null, ex);
-                            } catch (Exception ex) {
-                                Logger.getLogger(PaymentServlet.class.getName()).log(Level.SEVERE, null, ex);
+        PaymentJpaController paymentJpaCtrl = new PaymentJpaController(utx, emf);
+        Payment payment = paymentJpaCtrl.findPayment(cardNo);
+        if(payment != null){
+            if (cardHolder != null && cardHolder.length() > 0 && cardHolder.equalsIgnoreCase(payment.getCardholder())) {
+                if (cardNo != null && cardNo.length() > 0 && cardNo.length() == 16 && cardNo.equals(payment.getCardnumber())) {
+                    if (exp != null && exp.equals(payment.getExpireYear()+"-"+payment.getExpireMonth())) {
+                        if (cvv != null && cvv.length() > 0 && cvv.equals(payment.getCvv())) {
+                            boolean checkPay = payment.payMent(orderCus.getTotalprice());
+                            if (checkPay) {
+                                try {
+                                    paymentJpaCtrl.edit(payment);
+                                    session.setAttribute("Orderscustomer", orderCus);
+                                    response.sendRedirect("Contact.jsp");
+                                    return;
+                                } catch (RollbackFailureException ex) {
+                                    Logger.getLogger(PaymentServlet.class.getName()).log(Level.SEVERE, null, ex);
+                                } catch (Exception ex) {
+                                    Logger.getLogger(PaymentServlet.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                            }else{
+                                session.setAttribute("messagePayment", "Unsucessful Pay!!!");
                             }
+                        } else {
+                            session.setAttribute("message", "CVV Wrong!!");
                         }
-
                     } else {
-                        session.setAttribute("message", "CVV Wrong!!");
+                        session.setAttribute("message", "EXP Wrong!!");
                     }
                 } else {
-                    session.setAttribute("message", "EXP Wrong!!");
+                    session.setAttribute("message", "Card Number Wrong!!");
                 }
             } else {
-                session.setAttribute("message", "Card Number Wrong!!");
+                session.setAttribute("message", "Card Holder Wrong!!");
             }
-        } else {
-            session.setAttribute("message", "Card Holder Wrong!!");
+        }else{
+            session.setAttribute("message", "Card Number Wrong!!");
         }
-        getServletContext().getRequestDispatcher("/HomePage.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("/Payment.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
