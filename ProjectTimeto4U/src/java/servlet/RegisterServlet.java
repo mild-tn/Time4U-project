@@ -46,8 +46,7 @@ public class RegisterServlet extends HttpServlet {
             if (email != null && email.length() > 0 && password != null && password.length() > 0 && conPass != null && conPass.length() > 0) {
                 AccountJpaController accountJpaCtrl = new AccountJpaController(utx, emf);
                 Account accountCheckEmail = accountJpaCtrl.findByEmail(email);
-                System.out.println(""+accountCheckEmail.getEmail());
-                if (accountCheckEmail == null) {
+                if (accountCheckEmail != null) {
                     session.setAttribute("messageCheckEmail", "Email has been register");
                     getServletContext().getRequestDispatcher("/Register.jsp").forward(request, response);
                 } else {
@@ -59,7 +58,6 @@ public class RegisterServlet extends HttpServlet {
                             regJpaCtrl.create(register);
                             session.setAttribute("emailRe", register.getEmail());
                             session.setAttribute("email", register);
-                            getServletContext().getRequestDispatcher("RegisterCheckEmail").forward(request, response);
                             response.sendRedirect("ActivateAccount.jsp");
                             return;
                         } catch (Exception ex) {

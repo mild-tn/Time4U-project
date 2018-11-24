@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 import javax.transaction.UserTransaction;
 import model.Account;
 
@@ -258,7 +259,11 @@ public class AccountJpaController implements Serializable {
         query.setParameter("email", email);
         try {
             return (Account)query.getSingleResult();
-        } finally {
+        } catch(NoResultException ex){
+            return null;
+        } catch(NullPointerException ex){
+            return null;
+        }finally {
             em.close();
         }
     }
