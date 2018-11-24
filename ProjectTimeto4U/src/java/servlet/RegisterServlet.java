@@ -5,6 +5,7 @@
  */
 package servlet;
 
+import controller.AccountJpaController;
 import controller.RegisterJpaController;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -21,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
+import model.Account;
 import model.Register;
 
 /**
@@ -29,7 +31,7 @@ import model.Register;
  */
 public class RegisterServlet extends HttpServlet {
 
-   @PersistenceUnit(unitName = "ProjectTimeto4UPU")
+    @PersistenceUnit(unitName = "ProjectTimeto4UPU")
     EntityManagerFactory emf;
     @Resource
     UserTransaction utx;
@@ -42,18 +44,27 @@ public class RegisterServlet extends HttpServlet {
         String conPass = request.getParameter("confirmpass");
         if (session != null) {
             if (email != null && email.length() > 0 && password != null && password.length() > 0 && conPass != null && conPass.length() > 0) {
-                if (password.equals(conPass)) {
-                    password = cryptWithMD5(password);
-                    Register register = new Register(email, password);
-                    RegisterJpaController regJpaCtrl = new RegisterJpaController(utx, emf);
-                    try {
-                        regJpaCtrl.create(register);
-                        session.setAttribute("emailRe", register.getEmail());
-                        session.setAttribute("email", register);
-                        response.sendRedirect("ActivateAccount.jsp");
-                        return;
-                    } catch (Exception ex) {
-                        Logger.getLogger(RegisterServlet.class.getName()).log(Level.SEVERE, null, ex);
+                AccountJpaController accountJpaCtrl = new AccountJpaController(utx, emf);
+                Account accountCheckEmail = accountJpaCtrl.findByEmail(email);
+                System.out.println(""+accountCheckEmail.getEmail());
+                if (accountCheckEmail == null) {
+                    session.setAttribute("messageCheckEmail", "Email has been register");
+                    getServletContext().getRequestDispatcher("/Register.jsp").forward(request, response);
+                } else {
+                    if (password.equals(conPass)) {
+                        password = cryptWithMD5(password);
+                        Register register = new Register(email, password);
+                        RegisterJpaController regJpaCtrl = new RegisterJpaController(utx, emf);
+                        try {
+                            regJpaCtrl.create(register);
+                            session.setAttribute("emailRe", register.getEmail());
+                            session.setAttribute("email", register);
+                            getServletContext().getRequestDispatcher("RegisterCheckEmail").forward(request, response);
+                            response.sendRedirect("ActivateAccount.jsp");
+                            return;
+                        } catch (Exception ex) {
+                            Logger.getLogger(RegisterServlet.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
                 }
             } else {
@@ -79,7 +90,6 @@ public class RegisterServlet extends HttpServlet {
         }
         return null;
     }
-
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

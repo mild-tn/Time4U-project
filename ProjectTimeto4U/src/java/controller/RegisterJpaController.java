@@ -23,7 +23,7 @@ import model.Register;
 
 /**
  *
- * @author Mild-TN
+ * @author kao-tu
  */
 public class RegisterJpaController implements Serializable {
 
@@ -222,7 +222,6 @@ public class RegisterJpaController implements Serializable {
             em.close();
         }
     }
-
     public Register findByEmail(String email) {
         EntityManager em = getEntityManager();
         Query query = em.createNamedQuery("Register.findByEmail");
@@ -232,5 +231,6 @@ public class RegisterJpaController implements Serializable {
         } finally {
             em.close();
         }
-    }
+}
+
 }
