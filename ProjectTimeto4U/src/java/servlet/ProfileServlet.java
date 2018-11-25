@@ -41,7 +41,7 @@ public class ProfileServlet extends HttpServlet {
             Account accountId = accountJpaController.findAccount(account.getAccountId());
             if (accountId != null) {
                 CustomerJpaController customerJpaController = new CustomerJpaController(utx, emf);
-                Customer customer = customerJpaController.findCustomer(accountId.getAccountId());
+                Customer customer = (Customer) session.getAttribute("customer");
                 session.setAttribute("customer", customer);
                 getServletContext().getRequestDispatcher("/Profile.jsp").forward(request, response);
             } else {

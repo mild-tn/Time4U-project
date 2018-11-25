@@ -33,210 +33,260 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "CUSTOMER")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Customer.findAll", query = "SELECT c FROM Customer c")
-    , @NamedQuery(name = "Customer.findByCustomernumber", query = "SELECT c FROM Customer c WHERE c.customernumber = :customernumber")
-    , @NamedQuery(name = "Customer.findByFname", query = "SELECT c FROM Customer c WHERE c.fname = :fname")
-    , @NamedQuery(name = "Customer.findByLname", query = "SELECT c FROM Customer c WHERE c.lname = :lname")
-    , @NamedQuery(name = "Customer.findByTelno", query = "SELECT c FROM Customer c WHERE c.telno = :telno")
-    , @NamedQuery(name = "Customer.findByAddress", query = "SELECT c FROM Customer c WHERE c.address = :address")
-    , @NamedQuery(name = "Customer.findByCity", query = "SELECT c FROM Customer c WHERE c.city = :city")
-    , @NamedQuery(name = "Customer.findByProvine", query = "SELECT c FROM Customer c WHERE c.provine = :provine")
-    , @NamedQuery(name = "Customer.findByPostalcode", query = "SELECT c FROM Customer c WHERE c.postalcode = :postalcode")
-    , @NamedQuery(name = "Customer.findByCountry", query = "SELECT c FROM Customer c WHERE c.country = :country")
-    , @NamedQuery(name = "Customer.findBySex", query = "SELECT c FROM Customer c WHERE c.sex = :sex")})
+  @NamedQuery(name = "Customer.findAll", query = "SELECT c FROM Customer c")
+  , @NamedQuery(name = "Customer.findByCustomernumber", query = "SELECT c FROM Customer c WHERE c.customernumber = :customernumber")
+  , @NamedQuery(name = "Customer.findByFname", query = "SELECT c FROM Customer c WHERE c.fname = :fname")
+  , @NamedQuery(name = "Customer.findByLname", query = "SELECT c FROM Customer c WHERE c.lname = :lname")
+  , @NamedQuery(name = "Customer.findByTelno", query = "SELECT c FROM Customer c WHERE c.telno = :telno")
+  , @NamedQuery(name = "Customer.findByAddress", query = "SELECT c FROM Customer c WHERE c.address = :address")
+  , @NamedQuery(name = "Customer.findByCity", query = "SELECT c FROM Customer c WHERE c.city = :city")
+  , @NamedQuery(name = "Customer.findByProvine", query = "SELECT c FROM Customer c WHERE c.provine = :provine")
+  , @NamedQuery(name = "Customer.findByPostalcode", query = "SELECT c FROM Customer c WHERE c.postalcode = :postalcode")
+  , @NamedQuery(name = "Customer.findByCountry", query = "SELECT c FROM Customer c WHERE c.country = :country")
+  , @NamedQuery(name = "Customer.findBySex", query = "SELECT c FROM Customer c WHERE c.sex = :sex")})
 public class Customer implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "CUSTOMERNUMBER")
-    private Integer customernumber;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "FNAME")
-    private String fname;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "LNAME")
-    private String lname;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "TELNO")
-    private String telno;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "ADDRESS")
-    private String address;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "CITY")
-    private String city;
-    @Size(max = 50)
-    @Column(name = "PROVINE")
-    private String provine;
-    @Size(max = 15)
-    @Column(name = "POSTALCODE")
-    private String postalcode;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "COUNTRY")
-    private String country;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 1)
-    @Column(name = "SEX")
-    private String sex;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customernumber")
-    private List<OrdersCustomer> ordersCustomerList;
-    @JoinColumn(name = "ACCOUNT_ID", referencedColumnName = "ACCOUNT_ID")
-    @ManyToOne(optional = false)
-    private Account accountId;
+  private static final long serialVersionUID = 1L;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Basic(optional = false)
+  @Column(name = "CUSTOMERNUMBER")
+  private Integer customernumber;
+  @Basic(optional = false)
+  @NotNull
+  @Size(min = 1, max = 50)
+  @Column(name = "FNAME")
+  private String fname;
+  @Basic(optional = false)
+  @NotNull
+  @Size(min = 1, max = 50)
+  @Column(name = "LNAME")
+  private String lname;
+  @Basic(optional = false)
+  @NotNull
+  @Size(min = 1, max = 50)
+  @Column(name = "TELNO")
+  private String telno;
+  @Basic(optional = false)
+  @NotNull
+  @Size(min = 1, max = 50)
+  @Column(name = "ADDRESS")
+  private String address;
+  @Basic(optional = false)
+  @NotNull
+  @Size(min = 1, max = 50)
+  @Column(name = "CITY")
+  private String city;
+  @Size(max = 50)
+  @Column(name = "PROVINE")
+  private String provine;
+  @Size(max = 15)
+  @Column(name = "POSTALCODE")
+  private String postalcode;
+  @Basic(optional = false)
+  @NotNull
+  @Size(min = 1, max = 50)
+  @Column(name = "COUNTRY")
+  private String country;
+  @Basic(optional = false)
+  @NotNull
+  @Size(min = 1, max = 1)
+  @Column(name = "SEX")
+  private String sex;
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "customernumber")
+  private List<OrdersCustomer> ordersCustomerList;
+  @JoinColumn(name = "ACCOUNT_ID", referencedColumnName = "ACCOUNT_ID")
+  @ManyToOne(optional = false)
+  private Account accountId;
 
-    public Customer() {
-    }
+  public Customer() {
+  }
 
-    public Customer(Integer customernumber) {
-        this.customernumber = customernumber;
-    }
+  public Customer(Integer customernumber) {
+    this.customernumber = customernumber;
+  }
 
-    public Customer(Integer customernumber, String fname, String lname, String telno, String address, String city, String country, String sex) {
-        this.customernumber = customernumber;
-        this.fname = fname;
-        this.lname = lname;
-        this.telno = telno;
-        this.address = address;
-        this.city = city;
-        this.country = country;
-        this.sex = sex;
-    }
+  public Customer(Integer customernumber, String fname, String lname, String telno, String address, String city, String country, String sex) {
+    this.customernumber = customernumber;
+    this.fname = fname;
+    this.lname = lname;
+    this.telno = telno;
+    this.address = address;
+    this.city = city;
+    this.country = country;
+    this.sex = sex;
+  }
 
-    public Integer getCustomernumber() {
-        return customernumber;
-    }
+  public Customer(Integer customernumber, String fname, String lname, String telno, String address, String city, String provine, String postalcode, String country, String sex, Account accountId) {
+    this.customernumber = customernumber;
+    this.fname = fname;
+    this.lname = lname;
+    this.telno = telno;
+    this.address = address;
+    this.city = city;
+    this.provine = provine;
+    this.postalcode = postalcode;
+    this.country = country;
+    this.sex = sex;
+    this.accountId = accountId;
+  }
 
-    public void setCustomernumber(Integer customernumber) {
-        this.customernumber = customernumber;
-    }
+  public Customer(String fname, String lname, String telno, String address, String city, String provine, String postalcode, String country, String sex) {
+    this.fname = fname;
+    this.lname = lname;
+    this.telno = telno;
+    this.address = address;
+    this.city = city;
+    this.provine = provine;
+    this.postalcode = postalcode;
+    this.country = country;
+    this.sex = sex;
+  }
+  
+  
 
-    public String getFname() {
-        return fname;
+  public Customer(String fname, String lname, String telno, String address, String city, String provine, String postalcode, String country, String sex, Account accountId) {
+    this.fname = fname;
+    this.lname = lname;
+    this.telno = telno;
+    this.address = address;
+    this.city = city;
+    this.provine = provine;
+    this.postalcode = postalcode;
+    this.country = country;
+    this.sex = sex;
+    this.accountId = accountId;
+  }
+  
+  public boolean check(String name){
+    if(fname.equalsIgnoreCase(name)){
+      return true;
+    }else{
+      this.fname = name;
+      return false;
     }
+  }
+  
+  public Integer getCustomernumber() {
+    return customernumber;
+  }
 
-    public void setFname(String fname) {
-        this.fname = fname;
-    }
+  public void setCustomernumber(Integer customernumber) {
+    this.customernumber = customernumber;
+  }
 
-    public String getLname() {
-        return lname;
-    }
+  public String getFname() {
+    return fname;
+  }
 
-    public void setLname(String lname) {
-        this.lname = lname;
-    }
+  public void setFname(String fname) {
+    this.fname = fname;
+  }
 
-    public String getTelno() {
-        return telno;
-    }
+  public String getLname() {
+    return lname;
+  }
 
-    public void setTelno(String telno) {
-        this.telno = telno;
-    }
+  public void setLname(String lname) {
+    this.lname = lname;
+  }
 
-    public String getAddress() {
-        return address;
-    }
+  public String getTelno() {
+    return telno;
+  }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
+  public void setTelno(String telno) {
+    this.telno = telno;
+  }
 
-    public String getCity() {
-        return city;
-    }
+  public String getAddress() {
+    return address;
+  }
 
-    public void setCity(String city) {
-        this.city = city;
-    }
+  public void setAddress(String address) {
+    this.address = address;
+  }
 
-    public String getProvine() {
-        return provine;
-    }
+  public String getCity() {
+    return city;
+  }
 
-    public void setProvine(String provine) {
-        this.provine = provine;
-    }
+  public void setCity(String city) {
+    this.city = city;
+  }
 
-    public String getPostalcode() {
-        return postalcode;
-    }
+  public String getProvine() {
+    return provine;
+  }
 
-    public void setPostalcode(String postalcode) {
-        this.postalcode = postalcode;
-    }
+  public void setProvine(String provine) {
+    this.provine = provine;
+  }
 
-    public String getCountry() {
-        return country;
-    }
+  public String getPostalcode() {
+    return postalcode;
+  }
 
-    public void setCountry(String country) {
-        this.country = country;
-    }
+  public void setPostalcode(String postalcode) {
+    this.postalcode = postalcode;
+  }
 
-    public String getSex() {
-        return sex;
-    }
+  public String getCountry() {
+    return country;
+  }
 
-    public void setSex(String sex) {
-        this.sex = sex;
-    }
+  public void setCountry(String country) {
+    this.country = country;
+  }
 
-    @XmlTransient
-    public List<OrdersCustomer> getOrdersCustomerList() {
-        return ordersCustomerList;
-    }
+  public String getSex() {
+    return sex;
+  }
 
-    public void setOrdersCustomerList(List<OrdersCustomer> ordersCustomerList) {
-        this.ordersCustomerList = ordersCustomerList;
-    }
+  public void setSex(String sex) {
+    this.sex = sex;
+  }
 
-    public Account getAccountId() {
-        return accountId;
-    }
+  @XmlTransient
+  public List<OrdersCustomer> getOrdersCustomerList() {
+    return ordersCustomerList;
+  }
 
-    public void setAccountId(Account accountId) {
-        this.accountId = accountId;
-    }
+  public void setOrdersCustomerList(List<OrdersCustomer> ordersCustomerList) {
+    this.ordersCustomerList = ordersCustomerList;
+  }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (customernumber != null ? customernumber.hashCode() : 0);
-        return hash;
-    }
+  public Account getAccountId() {
+    return accountId;
+  }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Customer)) {
-            return false;
-        }
-        Customer other = (Customer) object;
-        if ((this.customernumber == null && other.customernumber != null) || (this.customernumber != null && !this.customernumber.equals(other.customernumber))) {
-            return false;
-        }
-        return true;
-    }
+  public void setAccountId(Account accountId) {
+    this.accountId = accountId;
+  }
 
-    @Override
-    public String toString() {
-        return "models.Customer[ customernumber=" + customernumber + " ]";
+  @Override
+  public int hashCode() {
+    int hash = 0;
+    hash += (customernumber != null ? customernumber.hashCode() : 0);
+    return hash;
+  }
+
+  @Override
+  public boolean equals(Object object) {
+    // TODO: Warning - this method won't work in the case the id fields are not set
+    if (!(object instanceof Customer)) {
+      return false;
     }
-    
+    Customer other = (Customer) object;
+    if ((this.customernumber == null && other.customernumber != null) || (this.customernumber != null && !this.customernumber.equals(other.customernumber))) {
+      return false;
+    }
+    return true;
+  }
+
+  @Override
+  public String toString() {
+    return "models.Customer[ customernumber=" + customernumber + " ]";
+  }
+
 }

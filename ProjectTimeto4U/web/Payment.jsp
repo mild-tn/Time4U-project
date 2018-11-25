@@ -6,7 +6,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Payment</title>
         <link rel="stylesheet" href="include/css/Payment.style.css"/>
-        <link rel="icon" type="image/png" sizes="64x64" href="images/oie_transparent.png">
+        <link rel="icon" type="image/png" sizes="64x64" href="images/oie_transparent.png"/>
     </head>
     <style>
         .buttons input{
@@ -20,12 +20,10 @@
                     $('.card-input').payment('formatCardNumber');
                     $('.expiry-input').payment('formatCardExpiry');
                     $('.cvc-input').payment('formatCardCVC');
-
                     $('.form').on('submit', function (e) {
                         e.preventDefault();
                     });
                 });
-
             </script>
             <div class="container">
                 <div class="icing">
@@ -39,7 +37,7 @@
                             </li>
                         </c:forEach>
                     </ul>
-                    <div class="total">${shoppingCart.totalPrice}</div>
+                    <div class="total"><input type="submit" value="${shoppingCart.totalPrice}" hidden>${shoppingCart.totalPrice} ฿</div>
                 </div>
                 <div class="dough">
                     <h2>Payment</h2>
