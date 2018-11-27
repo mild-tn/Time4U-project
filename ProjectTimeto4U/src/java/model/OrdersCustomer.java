@@ -36,148 +36,156 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "ORDERSCUSTOMER")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "OrdersCustomer.findAll", query = "SELECT o FROM OrdersCustomer o")
-    , @NamedQuery(name = "OrdersCustomer.findByOrdernumber", query = "SELECT o FROM OrdersCustomer o WHERE o.ordernumber = :ordernumber")
-    , @NamedQuery(name = "OrdersCustomer.findByRequireddate", query = "SELECT o FROM OrdersCustomer o WHERE o.requireddate = :requireddate")
-    , @NamedQuery(name = "OrdersCustomer.findByShippeddate", query = "SELECT o FROM OrdersCustomer o WHERE o.shippeddate = :shippeddate")
-    , @NamedQuery(name = "OrdersCustomer.findByStatus", query = "SELECT o FROM OrdersCustomer o WHERE o.status = :status")
-    , @NamedQuery(name = "OrdersCustomer.findByTotalprice", query = "SELECT o FROM OrdersCustomer o WHERE o.totalprice = :totalprice")})
+  @NamedQuery(name = "OrdersCustomer.findAll", query = "SELECT o FROM OrdersCustomer o")
+  , @NamedQuery(name = "OrdersCustomer.findByOrdernumber", query = "SELECT o FROM OrdersCustomer o WHERE o.ordernumber = :ordernumber")
+  , @NamedQuery(name = "OrdersCustomer.findByRequireddate", query = "SELECT o FROM OrdersCustomer o WHERE o.requireddate = :requireddate")
+  , @NamedQuery(name = "OrdersCustomer.findByShippeddate", query = "SELECT o FROM OrdersCustomer o WHERE o.shippeddate = :shippeddate")
+  , @NamedQuery(name = "OrdersCustomer.findByStatus", query = "SELECT o FROM OrdersCustomer o WHERE o.status = :status")
+  , @NamedQuery(name = "OrdersCustomer.findByTotalprice", query = "SELECT o FROM OrdersCustomer o WHERE o.totalprice = :totalprice")})
 public class OrdersCustomer implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "ORDERNUMBER")
-    private Integer ordernumber;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "REQUIREDDATE")
-    @Temporal(TemporalType.DATE)
-    private Date requireddate;
-    @Column(name = "SHIPPEDDATE")
-    @Temporal(TemporalType.DATE)
-    private Date shippeddate;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 15)
-    @Column(name = "STATUS")
-    private String status;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "TOTALPRICE")
-    private int totalprice;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ordernumber")
-    private List<Payment> paymentList;
-    @JoinColumn(name = "CUSTOMERNUMBER", referencedColumnName = "CUSTOMERNUMBER")
-    @ManyToOne(optional = false)
-    private Customer customernumber;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ordersCustomer")
-    private List<OrderDetail> orderDetailList;
+  private static final long serialVersionUID = 1L;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Basic(optional = false)
+  @Column(name = "ORDERNUMBER")
+  private Integer ordernumber;
+  @Basic(optional = false)
+  @NotNull
+  @Column(name = "REQUIREDDATE")
+  @Temporal(TemporalType.DATE)
+  private Date requireddate;
+  @Column(name = "SHIPPEDDATE")
+  @Temporal(TemporalType.DATE)
+  private Date shippeddate;
+  @Basic(optional = false)
+  @NotNull
+  @Size(min = 1, max = 15)
+  @Column(name = "STATUS")
+  private String status;
+  @Basic(optional = false)
+  @NotNull
+  @Column(name = "TOTALPRICE")
+  private int totalprice;
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "ordernumber")
+  private List<Payment> paymentList;
+  @JoinColumn(name = "CUSTOMERNUMBER", referencedColumnName = "CUSTOMERNUMBER")
+  @ManyToOne(optional = false)
+  private Customer customernumber;
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "ordersCustomer")
+  private List<OrderDetail> orderDetailList;
 
-    public OrdersCustomer() {
-    }
+  public OrdersCustomer() {
+  }
 
-    public OrdersCustomer(Integer ordernumber) {
-        this.ordernumber = ordernumber;
-    }
+  public OrdersCustomer(Integer ordernumber) {
+    this.ordernumber = ordernumber;
+  }
 
-    public OrdersCustomer(Integer ordernumber, Date requireddate, String status, int totalprice) {
-        this.ordernumber = ordernumber;
-        this.requireddate = requireddate;
-        this.status = status;
-        this.totalprice = totalprice;
-    }
+  public OrdersCustomer(Integer ordernumber, Date requireddate, String status, int totalprice) {
+    this.ordernumber = ordernumber;
+    this.requireddate = requireddate;
+    this.status = status;
+    this.totalprice = totalprice;
+  }
 
-    public Integer getOrdernumber() {
-        return ordernumber;
-    }
+  public OrdersCustomer(Date requireddate, Date shippeddate, String status, int totalprice, Customer customernumber) {
+    this.requireddate = requireddate;
+    this.shippeddate = shippeddate;
+    this.status = status;
+    this.totalprice = totalprice;
+    this.customernumber = customernumber;
+  }
 
-    public void setOrdernumber(Integer ordernumber) {
-        this.ordernumber = ordernumber;
-    }
+  public Integer getOrdernumber() {
+    return ordernumber;
+  }
 
-    public Date getRequireddate() {
-        return requireddate;
-    }
+  public void setOrdernumber(Integer ordernumber) {
+    this.ordernumber = ordernumber;
+  }
 
-    public void setRequireddate(Date requireddate) {
-        this.requireddate = requireddate;
-    }
+  public Date getRequireddate() {
+    return requireddate;
+  }
 
-    public Date getShippeddate() {
-        return shippeddate;
-    }
+  public void setRequireddate(Date requireddate) {
+    this.requireddate = requireddate;
+  }
 
-    public void setShippeddate(Date shippeddate) {
-        this.shippeddate = shippeddate;
-    }
+  public Date getShippeddate() {
+    return shippeddate;
+  }
 
-    public String getStatus() {
-        return status;
-    }
+  public void setShippeddate(Date shippeddate) {
+    this.shippeddate = shippeddate;
+  }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+  public String getStatus() {
+    return status;
+  }
 
-    public int getTotalprice() {
-        return totalprice;
-    }
+  public void setStatus(String status) {
+    this.status = status;
+  }
 
-    public void setTotalprice(int totalprice) {
-        this.totalprice = totalprice;
-    }
+  public int getTotalprice() {
+    return totalprice;
+  }
 
-    @XmlTransient
-    public List<Payment> getPaymentList() {
-        return paymentList;
-    }
+  public void setTotalprice(int totalprice) {
+    this.totalprice = totalprice;
+  }
 
-    public void setPaymentList(List<Payment> paymentList) {
-        this.paymentList = paymentList;
-    }
+  @XmlTransient
+  public List<Payment> getPaymentList() {
+    return paymentList;
+  }
 
-    public Customer getCustomernumber() {
-        return customernumber;
-    }
+  public void setPaymentList(List<Payment> paymentList) {
+    this.paymentList = paymentList;
+  }
 
-    public void setCustomernumber(Customer customernumber) {
-        this.customernumber = customernumber;
-    }
+  public Customer getCustomernumber() {
+    return customernumber;
+  }
 
-    @XmlTransient
-    public List<OrderDetail> getOrderDetailList() {
-        return orderDetailList;
-    }
+  public void setCustomernumber(Customer customernumber) {
+    this.customernumber = customernumber;
+  }
 
-    public void setOrderDetailList(List<OrderDetail> orderDetailList) {
-        this.orderDetailList = orderDetailList;
-    }
+  @XmlTransient
+  public List<OrderDetail> getOrderDetailList() {
+    return orderDetailList;
+  }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (ordernumber != null ? ordernumber.hashCode() : 0);
-        return hash;
-    }
+  public void setOrderDetailList(List<OrderDetail> orderDetailList) {
+    this.orderDetailList = orderDetailList;
+  }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof OrdersCustomer)) {
-            return false;
-        }
-        OrdersCustomer other = (OrdersCustomer) object;
-        if ((this.ordernumber == null && other.ordernumber != null) || (this.ordernumber != null && !this.ordernumber.equals(other.ordernumber))) {
-            return false;
-        }
-        return true;
-    }
+  @Override
+  public int hashCode() {
+    int hash = 0;
+    hash += (ordernumber != null ? ordernumber.hashCode() : 0);
+    return hash;
+  }
 
-    @Override
-    public String toString() {
-        return "models.OrdersCustomer[ ordernumber=" + ordernumber + " ]";
+  @Override
+  public boolean equals(Object object) {
+    // TODO: Warning - this method won't work in the case the id fields are not set
+    if (!(object instanceof OrdersCustomer)) {
+      return false;
     }
-    
+    OrdersCustomer other = (OrdersCustomer) object;
+    if ((this.ordernumber == null && other.ordernumber != null) || (this.ordernumber != null && !this.ordernumber.equals(other.ordernumber))) {
+      return false;
+    }
+    return true;
+  }
+
+  @Override
+  public String toString() {
+    return "models.OrdersCustomer[ ordernumber=" + ordernumber + " ]";
+  }
+
 }

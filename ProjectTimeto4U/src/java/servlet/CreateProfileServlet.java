@@ -49,24 +49,26 @@ public class CreateProfileServlet extends HttpServlet {
     String province = request.getParameter("province");
     String country = request.getParameter("country");
     String postCode = request.getParameter("postCode");
+    Customer customerSession = (Customer)session.getAttribute("customer");
     System.out.println(fname + "-" + lname + "-" + email + "-" + tel + "-" + sex + "-" + address + "-" + city + "-" + province + "-" + country + "-" + postCode);
     AccountJpaController accountJpaController = new AccountJpaController(utx, emf);
     Account accountSession = (Account) session.getAttribute("account");
     if (accountSession != null) {
-      Account account = accountJpaController.findByEmail(accountSession.getEmail());
-      CustomerJpaController customerJpaController = new CustomerJpaController(utx, emf);
-      Customer customer = new Customer(fname, lname, tel, address, city, province, postCode, country, sex, account);
-      Customer cusCreate = customerJpaController.findCustomer(customer.getCustomernumber());
-      try {
-        customerJpaController.create(customer);
-        session.setAttribute("customer", customer);
-        response.sendRedirect("Profile");
-        return;
-      } catch (Exception ex) {
-        Logger.getLogger(CreateProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
+        Account account = accountJpaController.findByEmail(accountSession.getEmail());
+        CustomerJpaController customerJpaController = new CustomerJpaController(utx, emf);
+        Customer customer = new Customer(fname, lname, tel, address, city, province, postCode, country, sex, account);
+        try {
+          customerJpaController.create(customer);
+          session.setAttribute("customer", customer);
+          response.sendRedirect("Profile");
+          return;
+        } catch (Exception ex) {
+          Logger.getLogger(CreateProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+      }else{
+        getServletContext().getRequestDispatcher("/EditProfile.jsp").forward(request, response);
       }
-    }
-
+    
   }
 
   // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

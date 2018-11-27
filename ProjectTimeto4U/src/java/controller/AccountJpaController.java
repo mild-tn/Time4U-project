@@ -19,12 +19,13 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 import javax.transaction.UserTransaction;
 import model.Account;
 
 /**
  *
- * @author Mild-TN
+ * @author kao-tu
  */
 public class AccountJpaController implements Serializable {
 
@@ -252,15 +253,19 @@ public class AccountJpaController implements Serializable {
         }
     }
     
-    public Account findByEmail(String email) {
-        EntityManager em = getEntityManager();
+      public Account findByEmail(String email) {
+         EntityManager em = getEntityManager();
         Query query = em.createNamedQuery("Account.findByEmail");
         query.setParameter("email", email);
         try {
-            return (Account) query.getSingleResult();
-        } finally {
+            return (Account)query.getSingleResult();
+        } catch(NoResultException ex){
+            return null;
+        } catch(NullPointerException ex){
+            return null;
+        }finally {
             em.close();
         }
     }
-    
+
 }

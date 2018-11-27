@@ -24,10 +24,6 @@
                     <div class="col-md-5">
                         <div class="profile-img">
                             <img src="include/img/forPage/1024px-Circle-icons-profile.png" alt=""/>
-                            <!--                            <div class="file btn btn-lg btn-primary">
-                                                            Change Photo
-                                                            <input type="file" name="file"/>
-                                                        </div>-->
                         </div>
                     </div>
                     <div class="col-md-5">
@@ -44,7 +40,7 @@
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <a href="EditProfile.jsp" class="profile-edit-btn btn btn-outline-dark" name="btnAddMore">Edit Profile</a>
+                        <a href="${customer == null ? 'CreateProfile':'EditProfile'}" class="profile-edit-btn btn btn-outline-dark" name="btnAddMore">Edit Profile</a>
                     </div>
                 </div>
                 <div class="row">

@@ -26,97 +26,108 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "ORDERDETAIL")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "OrderDetail.findAll", query = "SELECT o FROM OrderDetail o")
-    , @NamedQuery(name = "OrderDetail.findByOrdernumber", query = "SELECT o FROM OrderDetail o WHERE o.orderDetailPK.ordernumber = :ordernumber")
-    , @NamedQuery(name = "OrderDetail.findByProductcode", query = "SELECT o FROM OrderDetail o WHERE o.orderDetailPK.productcode = :productcode")
-    , @NamedQuery(name = "OrderDetail.findByQuantityordered", query = "SELECT o FROM OrderDetail o WHERE o.quantityordered = :quantityordered")})
+  @NamedQuery(name = "OrderDetail.findAll", query = "SELECT o FROM OrderDetail o")
+  , @NamedQuery(name = "OrderDetail.findByOrdernumber", query = "SELECT o FROM OrderDetail o WHERE o.orderDetailPK.ordernumber = :ordernumber")
+  , @NamedQuery(name = "OrderDetail.findByProductcode", query = "SELECT o FROM OrderDetail o WHERE o.orderDetailPK.productcode = :productcode")
+  , @NamedQuery(name = "OrderDetail.findByQuantityordered", query = "SELECT o FROM OrderDetail o WHERE o.quantityordered = :quantityordered")})
 public class OrderDetail implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected OrderDetailPK orderDetailPK;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "QUANTITYORDERED")
-    private int quantityordered;
-    @JoinColumn(name = "ORDERNUMBER", referencedColumnName = "ORDERNUMBER", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
-    private OrdersCustomer ordersCustomer;
-    @JoinColumn(name = "PRODUCTCODE", referencedColumnName = "PRODUCTCODE", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
-    private Product product;
+  private static final long serialVersionUID = 1L;
+  @EmbeddedId
+  protected OrderDetailPK orderDetailPK;
+  @Basic(optional = false)
+  @NotNull
+  @Column(name = "QUANTITYORDERED")
+  private int quantityordered;
+  @JoinColumn(name = "ORDERNUMBER", referencedColumnName = "ORDERNUMBER", insertable = false, updatable = false)
+  @ManyToOne(optional = false)
+  private OrdersCustomer ordersCustomer;
+  @JoinColumn(name = "PRODUCTCODE", referencedColumnName = "PRODUCTCODE", insertable = false, updatable = false)
+  @ManyToOne(optional = false)
+  private Product product;
 
-    public OrderDetail() {
-    }
+  public OrderDetail() {
+  }
 
-    public OrderDetail(OrderDetailPK orderDetailPK) {
-        this.orderDetailPK = orderDetailPK;
-    }
+  public OrderDetail(OrderDetailPK orderDetailPK) {
+    this.orderDetailPK = orderDetailPK;
+  }
 
-    public OrderDetail(OrderDetailPK orderDetailPK, int quantityordered) {
-        this.orderDetailPK = orderDetailPK;
-        this.quantityordered = quantityordered;
-    }
+  public OrderDetail(OrderDetailPK orderDetailPK, int quantityordered) {
+    this.orderDetailPK = orderDetailPK;
+    this.quantityordered = quantityordered;
+  }
 
-    public OrderDetail(int ordernumber, String productcode) {
-        this.orderDetailPK = new OrderDetailPK(ordernumber, productcode);
-    }
+  public OrderDetail(int ordernumber, String productcode) {
+    this.orderDetailPK = new OrderDetailPK(ordernumber, productcode);
+  }
 
-    public OrderDetailPK getOrderDetailPK() {
-        return orderDetailPK;
-    }
+  public OrderDetail(OrderDetailPK orderDetailPK, int quantityordered, Product product) {
+    this.orderDetailPK = orderDetailPK;
+    this.quantityordered = quantityordered;
+    this.product = product;
+  }
 
-    public void setOrderDetailPK(OrderDetailPK orderDetailPK) {
-        this.orderDetailPK = orderDetailPK;
-    }
+  public OrderDetail(int quantityordered, Product product) {
+    this.quantityordered = quantityordered;
+    this.product = product;
+  }
 
-    public int getQuantityordered() {
-        return quantityordered;
-    }
+  public OrderDetailPK getOrderDetailPK() {
+    return orderDetailPK;
+  }
 
-    public void setQuantityordered(int quantityordered) {
-        this.quantityordered = quantityordered;
-    }
+  public void setOrderDetailPK(OrderDetailPK orderDetailPK) {
+    this.orderDetailPK = orderDetailPK;
+  }
 
-    public OrdersCustomer getOrdersCustomer() {
-        return ordersCustomer;
-    }
+  public int getQuantityordered() {
+    return quantityordered;
+  }
 
-    public void setOrdersCustomer(OrdersCustomer ordersCustomer) {
-        this.ordersCustomer = ordersCustomer;
-    }
+  public void setQuantityordered(int quantityordered) {
+    this.quantityordered = quantityordered;
+  }
 
-    public Product getProduct() {
-        return product;
-    }
+  public OrdersCustomer getOrdersCustomer() {
+    return ordersCustomer;
+  }
 
-    public void setProduct(Product product) {
-        this.product = product;
-    }
+  public void setOrdersCustomer(OrdersCustomer ordersCustomer) {
+    this.ordersCustomer = ordersCustomer;
+  }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (orderDetailPK != null ? orderDetailPK.hashCode() : 0);
-        return hash;
-    }
+  public Product getProduct() {
+    return product;
+  }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof OrderDetail)) {
-            return false;
-        }
-        OrderDetail other = (OrderDetail) object;
-        if ((this.orderDetailPK == null && other.orderDetailPK != null) || (this.orderDetailPK != null && !this.orderDetailPK.equals(other.orderDetailPK))) {
-            return false;
-        }
-        return true;
-    }
+  public void setProduct(Product product) {
+    this.product = product;
+  }
 
-    @Override
-    public String toString() {
-        return "models.OrderDetail[ orderDetailPK=" + orderDetailPK + " ]";
+  @Override
+  public int hashCode() {
+    int hash = 0;
+    hash += (orderDetailPK != null ? orderDetailPK.hashCode() : 0);
+    return hash;
+  }
+
+  @Override
+  public boolean equals(Object object) {
+    // TODO: Warning - this method won't work in the case the id fields are not set
+    if (!(object instanceof OrderDetail)) {
+      return false;
     }
-    
+    OrderDetail other = (OrderDetail) object;
+    if ((this.orderDetailPK == null && other.orderDetailPK != null) || (this.orderDetailPK != null && !this.orderDetailPK.equals(other.orderDetailPK))) {
+      return false;
+    }
+    return true;
+  }
+
+  @Override
+  public String toString() {
+    return "models.OrderDetail[ orderDetailPK=" + orderDetailPK + " ]";
+  }
+
 }

@@ -26,60 +26,60 @@ import model.Payment;
  */
 public class PaymentServlet extends HttpServlet {
 
-  @PersistenceUnit(unitName = "ProjectTimeto4UPU")
-  EntityManagerFactory emf;
-  @Resource
-  UserTransaction utx;
-
-  protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-          throws ServletException, IOException {
-    HttpSession session = request.getSession();
-    OrdersCustomer orderCusSession = (OrdersCustomer) session.getAttribute("orderCus");
-    OrdersCustomerJpaController orderCusJpaCtrl = new OrdersCustomerJpaController(utx, emf);
-    OrdersCustomer orderCus = orderCusJpaCtrl.findOrdersCustomer(1);
-    String cardHolder = request.getParameter("cardholder");
-    String cardNo = request.getParameter("cardno");
-    String exp = request.getParameter("exp");
-    String cvv = request.getParameter("cvv");
-    if (orderCus != null) {
-      if (cardHolder != null && cardHolder.length() > 0) {
-        if (cardNo != null && cardNo.length() > 0) {
-          if (exp != null) {
-            if (cvv != null && cvv.length() > 0) {
-              PaymentJpaController paymentJpaCtrl = new PaymentJpaController(utx, emf);
-              Payment payment = paymentJpaCtrl.findPayment(cardNo);
-              boolean checkPay = payment.payMent(orderCus.getTotalprice());
-              if (checkPay) {
-                try {
-                  paymentJpaCtrl.edit(payment);
-                  session.setAttribute("payment", payment);
-                  response.sendRedirect("SucessfulPay.jsp");
-                  return;
-                } catch (RollbackFailureException ex) {
-                  Logger.getLogger(PaymentServlet.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (Exception ex) {
-                  Logger.getLogger(PaymentServlet.class.getName()).log(Level.SEVERE, null, ex);
+    @PersistenceUnit(unitName = "ProjectTimeto4UPU")
+    EntityManagerFactory emf;
+    @Resource
+    UserTransaction utx;
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        OrdersCustomerJpaController orderCusJpaCtrl = new OrdersCustomerJpaController(utx, emf);
+        OrdersCustomer orderCus = orderCusJpaCtrl.findOrdersCustomer(1);
+        String cardHolder = request.getParameter("cardholder");
+        String cardNo = request.getParameter("cardno");
+        String exp = request.getParameter("exp");
+        System.out.println("EXPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP :" +exp);
+        String cvv = request.getParameter("cvv");
+        PaymentJpaController paymentJpaCtrl = new PaymentJpaController(utx, emf);
+        Payment payment = paymentJpaCtrl.findPayment(cardNo);
+        if(payment != null){
+            if (cardHolder != null && cardHolder.length() > 0 && cardHolder.equalsIgnoreCase(payment.getCardholder())) {
+                if (cardNo != null && cardNo.length() > 0 && cardNo.length() == 16 && cardNo.equals(payment.getCardnumber())) {
+                        System.out.println("paymenttttttttttttttt "+payment.getExpireYear()+payment.getExpireMonth());
+                    if (exp != null && exp.equals(payment.getExpireMonth()+payment.getExpireYear())) {
+                        if (cvv != null && cvv.length() > 0 && cvv.equals(payment.getCvv())) {
+                            boolean checkPay = payment.payMent(orderCus.getTotalprice());
+                            if (checkPay) {
+                                try {
+                                    paymentJpaCtrl.edit(payment);
+                                    session.setAttribute("Orderscustomer", orderCus);
+                                    response.sendRedirect("Contact.jsp");
+                                    return;
+                                } catch (RollbackFailureException ex) {
+                                    Logger.getLogger(PaymentServlet.class.getName()).log(Level.SEVERE, null, ex);
+                                } catch (Exception ex) {
+                                    Logger.getLogger(PaymentServlet.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                            }else{
+                                session.setAttribute("messagePayment", "Unsucessful Pay!!!");
+                            }
+                        } else {
+                            session.setAttribute("message", "CVV Wrong!!");
+                        }
+                    } else {
+                        session.setAttribute("message", "EXP Wrong!!");
+                    }
+                } else {
+                    session.setAttribute("message", "Card Number Wrong!!");
                 }
-              }
-
             } else {
-              session.setAttribute("message", "CVV Wrong!!");
+                session.setAttribute("message", "Card Holder Wrong!!");
             }
-          } else {
-            session.setAttribute("message", "EXP Wrong!!");
-          }
-        } else {
-          session.setAttribute("message", "Card Number Wrong!!");
+        }else{
+            session.setAttribute("message", "Card Number Wrong!!");
         }
-      } else {
-        session.setAttribute("message", "Card Holder Wrong!!");
-      }
-      getServletContext().getRequestDispatcher("/HomePage.jsp").forward(request, response);
-    }else{
-      session.setAttribute("cusError", "กรุณากรอกข้อมูลและที่อยู่");
-      getServletContext().getRequestDispatcher("/EditProfile.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("/Payment.jsp").forward(request, response);
     }
-  }
 
   // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
   /**

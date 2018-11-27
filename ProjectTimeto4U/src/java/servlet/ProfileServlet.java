@@ -27,68 +27,70 @@ import model.Customer;
  */
 public class ProfileServlet extends HttpServlet {
 
-    @PersistenceUnit(unitName = "ProjectTimeto4UPU")
-    EntityManagerFactory emf;
-    @Resource
-    UserTransaction utx;
+  @PersistenceUnit(unitName = "ProjectTimeto4UPU")
+  EntityManagerFactory emf;
+  @Resource
+  UserTransaction utx;
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            AccountJpaController accountJpaController = new AccountJpaController(utx, emf);
-            Account account = (Account) session.getAttribute("account");
-            Account accountId = accountJpaController.findAccount(account.getAccountId());
-            if (accountId != null) {
-                CustomerJpaController customerJpaController = new CustomerJpaController(utx, emf);
-                Customer customer = (Customer) session.getAttribute("customer");
-                session.setAttribute("customer", customer);
-                getServletContext().getRequestDispatcher("/Profile.jsp").forward(request, response);
-            } else {
-            }
-        } else {
-            response.sendRedirect("Login.jsp");
-            return;
-        }
+  protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+          throws ServletException, IOException {
+    HttpSession session = request.getSession(false);
+    if (session != null) {
+      AccountJpaController accountJpaController = new AccountJpaController(utx, emf);
+      Account account = (Account) session.getAttribute("account");
+      Account accountId = accountJpaController.findAccount(account.getAccountId());
+      CustomerJpaController customerJpaController = new CustomerJpaController(utx, emf);
+      Customer customer = (Customer) session.getAttribute("customer");
+      Customer accountFind = customerJpaController.findCustomer(accountId.getAccountId());
+    System.out.println("-----------"+accountFind);
+      if (accountId != null) {
+        session.setAttribute("customer", accountFind);
+        getServletContext().getRequestDispatcher("/Profile.jsp").forward(request, response);
+      } else {
+      }
+    } else {
+      response.sendRedirect("/Login.jsp");
+      return;
     }
+  }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
+  // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+  /**
+   * Handles the HTTP <code>GET</code> method.
+   *
+   * @param request servlet request
+   * @param response servlet response
+   * @throws ServletException if a servlet-specific error occurs
+   * @throws IOException if an I/O error occurs
+   */
+  @Override
+  protected void doGet(HttpServletRequest request, HttpServletResponse response)
+          throws ServletException, IOException {
+    processRequest(request, response);
+  }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
+  /**
+   * Handles the HTTP <code>POST</code> method.
+   *
+   * @param request servlet request
+   * @param response servlet response
+   * @throws ServletException if a servlet-specific error occurs
+   * @throws IOException if an I/O error occurs
+   */
+  @Override
+  protected void doPost(HttpServletRequest request, HttpServletResponse response)
+          throws ServletException, IOException {
+    processRequest(request, response);
+  }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+  /**
+   * Returns a short description of the servlet.
+   *
+   * @return a String containing servlet description
+   */
+  @Override
+  public String getServletInfo() {
+    return "Short description";
+  }// </editor-fold>
 
 }

@@ -34,11 +34,14 @@ public class ProductListServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
+        response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
         String productName = request.getParameter("productName");
         ProductJpaController productJpaCtrl = new ProductJpaController(utx, emf);
         List<Product> products = null;
         if (productName != null) {
             products = productJpaCtrl.findByProductName(productName);
+            System.out.println("Test   "+ products);
             if (products.isEmpty()) {
                 request.setAttribute("message", "Product name '" + productName + "' does not exist !!!");
             } else {

@@ -32,14 +32,12 @@
                 </div>
                 <div class="col-lg-4 pull-lg-8 text-xs-center justify-content-center">
                     <img src="include/img/forPage/1024px-Circle-icons-profile.png" width="200px" class="m-x-auto img-fluid img-circle" alt="avatar" />
-                    <!--<h6 class="m-t-2">Upload a different photo</h6>-->
                     <label class="custom-file">
                         <input type="file" id="file" class="custom-file-input">
-                        <!--<span class="custom-file-control">Choose file</span>-->
                     </label>
                 </div>
                 <div class="col-lg-4 push-lg-4 personal-info">
-                    <form role="form" action="EditProfile">
+                    <form role="form" action="${customer == null ? 'CreateProfile':'EditProfile'}">
                         <div class="form-group row">
                             <div class="col-lg-9">
                                 <input class="form-control" type="text" name="fname" placeholder="First name" required/>

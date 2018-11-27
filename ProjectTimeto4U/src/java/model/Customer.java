@@ -142,8 +142,6 @@ public class Customer implements Serializable {
     this.country = country;
     this.sex = sex;
   }
-  
-  
 
   public Customer(String fname, String lname, String telno, String address, String city, String provine, String postalcode, String country, String sex, Account accountId) {
     this.fname = fname;
@@ -157,16 +155,7 @@ public class Customer implements Serializable {
     this.sex = sex;
     this.accountId = accountId;
   }
-  
-  public boolean check(String name){
-    if(fname.equalsIgnoreCase(name)){
-      return true;
-    }else{
-      this.fname = name;
-      return false;
-    }
-  }
-  
+
   public Integer getCustomernumber() {
     return customernumber;
   }
