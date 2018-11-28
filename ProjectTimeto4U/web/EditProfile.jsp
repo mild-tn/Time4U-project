@@ -12,7 +12,7 @@
         <title>Edit Profile</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="include/css/style-page.css"/> 
+        <!--<link rel="stylesheet" href="include/css/style-page.css"/>--> 
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css"/>
         <link rel="icon" type="image/png" sizes="64x64" href="images/oie_transparent.png"/>
     </head>
@@ -20,6 +20,9 @@
         #row{
           margin-top: 50px;
           margin-bottom: 60px;
+        }
+        body{
+          height: 100%;
         }
     </style>
     <body>
@@ -60,7 +63,7 @@
                         </div>
                 </div>
                 <div class="col-lg-4 push-lg-4 personal-info">
-                    <div class="form-group row">
+                    <div class="form-group row" ${customer != null ? 'hidden':''}>
                         <label class="col-lg-2 col-form-label form-control-label">Sex</label>
                         <div class="col-lg-4">
                             <input type="radio" name="gender" value="M" required> Male
