@@ -11,10 +11,11 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Login Page</title>
         <link rel="stylesheet" href="include/css/Login.style.css"/>
+        <link rel="icon" type="image/png" sizes="64x64" href="images/oie_transparent.png">
     </head>
     <style>
         body h1{
-            color: white;
+          color: white;
         }
     </style>
     <body>
