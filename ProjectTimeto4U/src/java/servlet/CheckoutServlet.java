@@ -42,17 +42,25 @@ public class CheckoutServlet extends HttpServlet {
     HttpSession session = request.getSession();
     Account account = (Account) session.getAttribute("account");
     LineItem lineItems = (LineItem) session.getAttribute("line");
-    System.out.println("Line  " + lineItems.getQuantity());
-    Cart cart = (Cart) session.getAttribute("shoppingCart");
     System.out.println("product  " + lineItems.getProduct().getProductcode());
-    OrdersCustomerJpaController customerJpaController = new OrdersCustomerJpaController(utx, emf);
-    CustomerJpaController customerJpaController1 = new CustomerJpaController(utx, emf);
-    Customer customer = customerJpaController1.findCustomer(1);
-    System.out.println("cuNo  " + customer);
+    OrdersCustomerJpaController ordercustomerJpaController = new OrdersCustomerJpaController(utx, emf);
+    
+    CustomerJpaController customerJpaController = new CustomerJpaController(utx, emf);
+    Customer customer = customerJpaController.findCustomer(account.getAccountId());
+    
+    OrderDetailJpaController detailJpaController = new OrderDetailJpaController(utx, emf);
     OrdersCustomer orderCustomer = new OrdersCustomer(new Date(), null, "null", lineItems.getQuantity(), customer);
-    if (account != null) {
+    
+    System.out.println("Customer" + customer);
+    
+    
+    if (account.getAccountId() != null) {
       try {
-        customerJpaController.create(orderCustomer);
+        ordercustomerJpaController.create(orderCustomer);
+        OrderDetailPK detailPK = new OrderDetailPK(lineItems.getProduct().getProductcode());
+        OrderDetail orderDetail = new OrderDetail(lineItems.getQuantity(), orderCustomer,lineItems.getProduct());
+        System.out.println("--" + orderCustomer.getOrdernumber() + "--" +lineItems.getProduct().getProductcode() + "Dettail " + lineItems.getQuantity()+" " + detailPK);
+        detailJpaController.create(orderDetail);
         session.setAttribute("oderCustomer", orderCustomer);
         getServletContext().getRequestDispatcher("/Payment.jsp").forward(request, response);
       } catch (Exception ex) {

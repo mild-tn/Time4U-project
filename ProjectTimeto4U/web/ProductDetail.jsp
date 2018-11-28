@@ -33,7 +33,7 @@
                       <div class="col">
                       </div>
                       <div class="col-6 text-right">
-                          <form action="AddToCart" style="margin-top: 40px">
+                          <form action="AddToCart" style="margin-top: 40px;margin-bottom: 40px;">
                               <input hidden type="text" value="${p.productcode}" name="addProductCode"/>
                               <button type="submit" class="btn btn-outline-secondary">
                                   <i class="fas fa-cart-plus"></i> Add To Cart
