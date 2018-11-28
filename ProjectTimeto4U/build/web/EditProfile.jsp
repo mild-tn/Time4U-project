@@ -12,7 +12,7 @@
         <title>Edit Profile</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="include/css/style-page.css"/> 
+        <!--<link rel="stylesheet" href="include/css/style-page.css"/>--> 
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css"/>
         <link rel="icon" type="image/png" sizes="64x64" href="images/oie_transparent.png"/>
     </head>
@@ -20,6 +20,9 @@
         #row{
           margin-top: 50px;
           margin-bottom: 60px;
+        }
+        body{
+          height: 100%;
         }
     </style>
     <body>
@@ -37,7 +40,7 @@
                     </label>
                 </div>
                 <div class="col-lg-4 push-lg-4 personal-info">
-                    <form role="form" action="${customer == null ? 'CreateProfile':'EditProfile'}">
+                    <form role="form" action="${cutomer != null ? 'CreateProfile':'EditProfile'}">
                         <div class="form-group row">
                             <div class="col-lg-9">
                                 <input class="form-control" type="text" name="fname" placeholder="First name" required/>
@@ -46,11 +49,6 @@
                         <div class="form-group row">
                             <div class="col-lg-9">
                                 <input class="form-control" type="text" name="lname" placeholder="Last name" required/>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-lg-9">
-                                <input class="form-control" type="email" name="email" value="${account.email}" placeholder="Email" required/>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -90,7 +88,7 @@
                             <input class="form-control" type="text" name="country" placeholder="Country" required />
                         </div>
                         <div class="col-lg-5">
-                            <input class="form-control" type="text" name="postCode" placeholder="Postal Code" />
+                            <input class="form-control" type="text" name="postCode" placeholder="Postal Code" required />
                         </div>
                     </div>
                     <div class="form-group row">
