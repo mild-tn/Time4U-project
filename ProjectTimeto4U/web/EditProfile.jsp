@@ -40,7 +40,7 @@
                     </label>
                 </div>
                 <div class="col-lg-4 push-lg-4 personal-info">
-                    <form role="form" action="${customer == null ? 'CreateProfile':'EditProfile'}">
+                    <form role="form" action="${cutomer != null ? 'CreateProfile':'EditProfile'}">
                         <div class="form-group row">
                             <div class="col-lg-9">
                                 <input class="form-control" type="text" name="fname" placeholder="First name" required/>
@@ -51,11 +51,6 @@
                                 <input class="form-control" type="text" name="lname" placeholder="Last name" required/>
                             </div>
                         </div>
-<!--                        <div class="form-group row">
-                            <div class="col-lg-9">
-                                <input class="form-control" type="email" name="email" value="${account.email}" placeholder="Email" required/>
-                            </div>
-                        </div>-->
                         <div class="form-group row">
                             <div class="col-lg-9">
                                 <input class="form-control" type="telno" name="tel" placeholder="Tel no." required/>
@@ -63,7 +58,7 @@
                         </div>
                 </div>
                 <div class="col-lg-4 push-lg-4 personal-info">
-                    <div class="form-group row" ${customer != null ? 'hidden':''}>
+                    <div class="form-group row">
                         <label class="col-lg-2 col-form-label form-control-label">Sex</label>
                         <div class="col-lg-4">
                             <input type="radio" name="gender" value="M" required> Male
@@ -93,7 +88,7 @@
                             <input class="form-control" type="text" name="country" placeholder="Country" required />
                         </div>
                         <div class="col-lg-5">
-                            <input class="form-control" type="text" name="postCode" placeholder="Postal Code" />
+                            <input class="form-control" type="text" name="postCode" placeholder="Postal Code" required />
                         </div>
                     </div>
                     <div class="form-group row">
