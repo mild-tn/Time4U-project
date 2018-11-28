@@ -40,13 +40,12 @@
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <a href="EditProfile.jsp" class="profile-edit-btn btn btn-outline-dark" name="btnAddMore">
-                            Edit Profile
-                        </a>
+                        <a href="${customer == null ? 'CreateProfile':'EditProfile'}" class="profile-edit-btn btn btn-outline-dark" name="btnAddMore">Edit Profile</a>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-5">
+
                     </div>
                     <div class="col-md-7">
                         <div class="tab-content profile-tab" id="myTabContent">

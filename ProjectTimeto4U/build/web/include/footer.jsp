@@ -1,8 +1,14 @@
+<%-- 
+    Document   : footer
+    Created on : Nov 17, 2018, 4:10:53 PM
+    Author     : Mild-TN
+--%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <style>
     footer{
-    height: 30vh;
+    height: 100px;
     background-color: #333;
     padding: 20px;
     font-size: 14px;
