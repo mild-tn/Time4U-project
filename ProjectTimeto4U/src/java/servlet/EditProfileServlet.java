@@ -54,42 +54,37 @@ public class EditProfileServlet extends HttpServlet {
     Customer customer = (Customer) session.getAttribute("customer");
     AccountJpaController accountJpaController = new AccountJpaController(utx, emf);
     Account accountSession = (Account) session.getAttribute("account");
-    if (fname != null && fname.length() > 0 && lname != null && email != null && email.length() > 0 && tel != null && tel.length() > 0) {
-      if (accountSession != null) {
-        Account account = accountJpaController.findByEmail(accountSession.getEmail());
-        customer = new Customer(fname, lname, tel, address, city, province, postCode, country, sex, account);
-        if (account != null) {
-          Customer customer1 = customerJpaController.findCustomer(account.getAccountId());
-          System.out.println("---------" + customer1.getFname());
-          if (customer1 != null) {
-            try {
-              session.setAttribute("customer", customer);
-              customerJpaController.edit(customer);
-              System.out.println(fname + "-" + lname + "-" + email + "-" + tel + "-" + sex + "-" + address + "-" + city + "-" + province + "-" + country + "-" + postCode + "-" + accountSession);
-              System.out.println("edited");
-              response.sendRedirect("EditProfile.jsp");
-              return;
-            } catch (NonexistentEntityException ex) {
-              Logger.getLogger(EditProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (RollbackFailureException ex) {
-              Logger.getLogger(EditProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (Exception ex) {
-              Logger.getLogger(EditProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
-          } else {
-            response.sendRedirect("/Profile.jsp");
-            return;
+    if (accountSession != null) {
+      Account account = accountJpaController.findByEmail(accountSession.getEmail());
+      if (account != null) {
+        Customer customer1 = customerJpaController.findCustomer(account.getAccountId());
+        if (customer1 != null) {
+          try {
+            customer1.editCustomer(fname,lname, tel, address, city, province, postCode, country);
+//            Customer customerNew = new Customer(customer1.getCustomernumber(), fname, lname, tel, address, city, province, postCode, country, sex, account);
+            session.setAttribute("customer", customer);
+            customerJpaController.edit(customer1);
+            System.out.println(fname + "-" + lname + "-" + email + "-" + tel + "-" + sex + "-" + address + "-" + city + "-" + province + "-" + country + "-" + postCode + "-" + accountSession);
+            System.out.println("edited");
+            getServletContext().getRequestDispatcher("/EditProfile.jsp").forward(request, response);
+          } catch (NonexistentEntityException ex) {
+            Logger.getLogger(EditProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
+          } catch (RollbackFailureException ex) {
+            Logger.getLogger(EditProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
+          } catch (Exception ex) {
+            Logger.getLogger(EditProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
           }
-        } else {
-          getServletContext().getRequestDispatcher("/Login.jsp").forward(request, response);
         }
+      } else {
+        response.sendRedirect("/Profile.jsp");
+        return;
       }
     } else {
-      getServletContext().getRequestDispatcher("/EditProfile.jsp").forward(request, response);
+      getServletContext().getRequestDispatcher("/Login.jsp").forward(request, response);
     }
   }
 
-  // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
   /**
    * Handles the HTTP <code>GET</code> method.
    *

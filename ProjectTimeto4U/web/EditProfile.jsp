@@ -48,11 +48,11 @@
                                 <input class="form-control" type="text" name="lname" placeholder="Last name" required/>
                             </div>
                         </div>
-                        <div class="form-group row">
+<!--                        <div class="form-group row">
                             <div class="col-lg-9">
                                 <input class="form-control" type="email" name="email" value="${account.email}" placeholder="Email" required/>
                             </div>
-                        </div>
+                        </div>-->
                         <div class="form-group row">
                             <div class="col-lg-9">
                                 <input class="form-control" type="telno" name="tel" placeholder="Tel no." required/>

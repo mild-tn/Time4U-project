@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package servlet;
 
 import controller.AccountJpaController;
@@ -49,7 +44,6 @@ public class CreateProfileServlet extends HttpServlet {
     String province = request.getParameter("province");
     String country = request.getParameter("country");
     String postCode = request.getParameter("postCode");
-    Customer customerSession = (Customer)session.getAttribute("customer");
     System.out.println(fname + "-" + lname + "-" + email + "-" + tel + "-" + sex + "-" + address + "-" + city + "-" + province + "-" + country + "-" + postCode);
     AccountJpaController accountJpaController = new AccountJpaController(utx, emf);
     Account accountSession = (Account) session.getAttribute("account");
