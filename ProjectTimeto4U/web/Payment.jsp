@@ -56,7 +56,7 @@
                                 </div>
                                 <div class="column expiry-group">
                                     <label class="label" for="expiry">Expiry</label>
-                                    <input class="text-input expiry-input" id="exp" placeholder="dd/yy"/>
+                                    <input class="text-input expiry-input" id="exp" placeholder="MMYYYY"/>
                                 </div>
                             </div>
                             <div class="row">

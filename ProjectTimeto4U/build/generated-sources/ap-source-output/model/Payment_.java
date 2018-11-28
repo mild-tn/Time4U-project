@@ -5,7 +5,7 @@ import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 import model.OrdersCustomer;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-11-28T23:18:37")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-11-29T00:19:17")
 @StaticMetamodel(Payment.class)
 public class Payment_ { 
 

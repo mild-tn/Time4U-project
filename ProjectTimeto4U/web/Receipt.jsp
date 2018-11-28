@@ -25,18 +25,28 @@
             <div class="row">
                 <div class="col-12 d-flex justify-content-center align-content-center flex-wrap">
                     <div class="card bg-light mb-3" style="max-width: 50rem;">
-                        <div class="card-header">Payment</div>
                         <div class="card-body">
                             <h5 class="card-title">Receipt</h5>
                             <p class="card-text">
-                             <c:forEach items="${All.lineItems}" var="s" varStatus="vc">
-                            <li><span class="item-count">${vc.count}.</span>
-                                <span class="item-name">${s.product.productname}</span>
-                                <span class="item-name">${s.quantity}</span>
-                                <span class="item-name">${s.totalPrice} ฿</span>
-                            </li>
-                            </c:forEach>
+                            <table class="table">
+                                <thead>
+                                <th>Item</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                </thead>
+                                <tr>
+                                 <c:forEach items="${All.lineItems}" var="s" varStatus="vc">
+                                    <td><span class="item-name">${s.product.productname}</span></td>
+                                    <td><span class="item-name">${s.quantity}</span></td>
+                                    <td><span class="item-name">${s.product.buyprice} ฿</span></td>
+                                 <tr>
+                                     <th colspan="2" class="text-right">Total</th>
+                                    <td><span class="item-name">${s.totalPrice} ฿</span></td></tr> 
+                                </c:forEach>
+                                </tr>
+                            </table>
                             </p>
+                            
                         </div>
                     </div>
                 </div>
