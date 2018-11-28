@@ -8,11 +8,15 @@ package servlet;
 import controller.ProductJpaController;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
+import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,29 +30,36 @@ import model.Product;
  */
 public class ProductListServlet extends HttpServlet {
 
-   @PersistenceUnit(unitName = "ProjectTimeto4UPU")
+    @PersistenceUnit(unitName = "ProjectTimeto4UPU")
     EntityManagerFactory emf;
     @Resource
     UserTransaction utx;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
+        HttpSession session = request.getSession();
         String productName = request.getParameter("productName");
         ProductJpaController productJpaCtrl = new ProductJpaController(utx, emf);
         List<Product> products = null;
         if (productName != null) {
             products = productJpaCtrl.findByProductName(productName);
-            System.out.println("Test   "+ products);
             if (products.isEmpty()) {
-                request.setAttribute("message", "Product name '" + productName + "' does not exist !!!");
-            } else {
-                request.setAttribute("products", products);
+                products = productJpaCtrl.findByProductColor(productName);
+                if (products.isEmpty()) {
+                    products = productJpaCtrl.findByProductType(productName);
+                    if (products.isEmpty()) {
+                        request.setAttribute("message", "Product '" + productName + " ' does not exist !!!");
+                    }
+
+                }
             }
+            request.setAttribute("products", products);
+
         }
         getServletContext().getRequestDispatcher("/ProductList.jsp").forward(request, response);
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

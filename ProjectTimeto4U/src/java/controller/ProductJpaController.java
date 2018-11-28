@@ -248,4 +248,25 @@ public class ProductJpaController implements Serializable {
             em.close();
         }
     }
+      public List<Product> findByProductColor(String productColor) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createNamedQuery("Product.findByProductcolor");
+            query.setParameter("productcolor",productColor.toLowerCase()
+            );
+            return query.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+    public List<Product> findByProductType(String productType) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createNamedQuery("Product.findByProducttype");
+            query.setParameter("producttype","%" + productType+ "%");
+            return query.getResultList();
+        } finally {
+            em.close();
+        }
+    }
 }
