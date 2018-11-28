@@ -68,11 +68,11 @@
                         <h1>Contact Me</h1>
 
                         <form id="form">
-                            <div class="field name-box">
+<!--                            <div class="field name-box">
                                 <input type="text" id="name" placeholder="Who Are You?"/>
                                 <label for="name">Name</label>
                                 <span class="ss-icon">check</span>
-                            </div>
+                            </div>-->
 
                             <div class="field email-box">
                                 <input type="text" id="email" placeholder="name@email.com"/>
@@ -80,11 +80,11 @@
                                 <span class="ss-icon">check</span>
                             </div>
 
-                            <div class="field msg-box">
+<!--                            <div class="field msg-box">
                                 <textarea id="msg" rows="2" placeholder="Your message goes here..."/></textarea>
                                 <label for="msg">Msg</label>
                                 <span class="ss-icon">check</span>
-                            </div>
+                            </div>-->
                             <br>
                             <br>
                             <input class="button" type="submit" value="Send" />
