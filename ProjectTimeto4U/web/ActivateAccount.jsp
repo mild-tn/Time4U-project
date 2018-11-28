@@ -19,11 +19,12 @@
             <div class="registerbox" style="text-align: center;color: whitesmoke">
                 <h1>Activate</h1>
                 <h4 style="color: whitesmoke">Your Email </h4> 
-                <h5 style="color: whitesmoke">${emailRe}</h5>
+                <h5 style="color: whitesmoke" name="email">${emailRe}</h5>
                 <input type="text" name="activatekey" placeholder="Activate Key">
                 <input type="submit" value="SUBMIT">
-                </form>
                 <p style="color: red;text-align: center">${messageActivate}</p>
             </div>
+                </form>
+           
     </body>
 </html>

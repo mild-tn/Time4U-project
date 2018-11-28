@@ -21,6 +21,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
 import model.Account;
 import model.Register;
@@ -37,7 +38,8 @@ public class ActivateKeyServlet extends HttpServlet {
     UserTransaction utx;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       String email = request.getParameter("email");
+        HttpSession session = request.getSession();
+       String email = (String) session.getAttribute("emailRe");
         String activateKey = request.getParameter("activatekey");
         boolean isActivated = false;
         if (email != null && activateKey != null && activateKey.length() > 0) {
@@ -45,13 +47,9 @@ public class ActivateKeyServlet extends HttpServlet {
             AccountJpaController accountJpaCtrl = new AccountJpaController(utx, emf);
             Register register = regJpaCtrl.findByEmail(email);
             if (register != null) {
-                System.out.println("regisssssss : " + register.getRegisterId());
                 if (activateKey.equals(register.getActivatekey())) {
                     register.setActivatedate(new Date());
                     Account account = new Account(email,register.getPassword(),register);
-                    System.out.println(" register ID : " + register.getEmail());
-                    System.err.println("Re" + register.getPassword());
-                    System.out.println("acoount" + account);
                     try {
                         regJpaCtrl.edit(register);
                         accountJpaCtrl.create(account);
