@@ -156,6 +156,16 @@ public class Customer implements Serializable {
     this.accountId = accountId;
   }
 
+  public void editCustomer(String name,String lname,String telno,String address,String city,String provine,String postalcode,String country){
+      this.fname = name;
+      this.lname = lname;
+      this.telno = telno;
+      this.address = address;
+      this.city = city;
+      this.provine = provine;
+      this.postalcode = postalcode;
+      this.country = country;
+  }
   public Integer getCustomernumber() {
     return customernumber;
   }
@@ -259,7 +269,7 @@ public class Customer implements Serializable {
     hash += (customernumber != null ? customernumber.hashCode() : 0);
     return hash;
   }
-
+  
   @Override
   public boolean equals(Object object) {
     // TODO: Warning - this method won't work in the case the id fields are not set
