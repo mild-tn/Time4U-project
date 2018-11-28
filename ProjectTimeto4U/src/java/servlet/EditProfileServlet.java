@@ -58,7 +58,6 @@ public class EditProfileServlet extends HttpServlet {
       Account account = accountJpaController.findByEmail(accountSession.getEmail());
       if (account != null) {
         Customer customer1 = customerJpaController.findCustomer(account.getAccountId());
-        
         if (customer1 != null) {
           try {
             customer1.editCustomer(fname,lname, tel, address, city, province, postCode, country);
