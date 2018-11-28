@@ -61,7 +61,6 @@ public class EditProfileServlet extends HttpServlet {
         if (customer1 != null) {
           try {
             customer1.editCustomer(fname,lname, tel, address, city, province, postCode, country);
-//            Customer customerNew = new Customer(customer1.getCustomernumber(), fname, lname, tel, address, city, province, postCode, country, sex, account);
             session.setAttribute("customer", customer);
             customerJpaController.edit(customer1);
             System.out.println(fname + "-" + lname + "-" + email + "-" + tel + "-" + sex + "-" + address + "-" + city + "-" + province + "-" + country + "-" + postCode + "-" + accountSession);
