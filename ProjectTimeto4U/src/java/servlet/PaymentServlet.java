@@ -51,7 +51,7 @@ public class PaymentServlet extends HttpServlet {
                     if (cardHolder != null && cardHolder.length() > 0 && cardHolder.equalsIgnoreCase(payment.getCardholder())) {
                     if (exp != null && exp.equals(payment.getExpireMonth() + payment.getExpireYear())) {
                         if (cvv != null && cvv.length() > 0 && cvv.equals(payment.getCvv())) {
-                            boolean checkPay = payment.payMent(orderCusAcc.getTotalprice());
+                            boolean checkPay = payment.payMent(orderCusAcc,orderCusAcc.getTotalprice());
                             if (checkPay) {
                                 boolean checkStatus = orderCusAcc.paidStatus(checkPay);
                                 if(checkStatus){

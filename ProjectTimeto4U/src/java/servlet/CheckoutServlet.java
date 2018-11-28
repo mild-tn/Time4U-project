@@ -49,7 +49,7 @@ public class CheckoutServlet extends HttpServlet {
         Customer customer = customerJpaController.findCustomer(account.getAccountId());
 
         OrderDetailJpaController detailJpaController = new OrderDetailJpaController(utx, emf);
-        OrdersCustomer orderCustomer = new OrdersCustomer(new Date(), null, "null", lineItems.getQuantity(), customer);
+        OrdersCustomer orderCustomer = new OrdersCustomer(new Date(), null, "null", (int) lineItems.getTotalPrice(), customer);
 
         System.out.println("Customer" + customer);
 
