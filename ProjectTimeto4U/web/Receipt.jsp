@@ -16,7 +16,7 @@
     </head>
     <style>
         .card{
-            margin-top: 400px;
+            margin-top: 250px;
         }
     </style>
     <body style="background-color: #000">
@@ -34,15 +34,15 @@
                                 <th>Quantity</th>
                                 <th>Price</th>
                                 </thead>
-                                <tr>
                                  <c:forEach items="${All.lineItems}" var="s" varStatus="vc">
+                                <tr>
                                     <td><span class="item-name">${s.product.productname}</span></td>
                                     <td><span class="item-name">${s.quantity}</span></td>
                                     <td><span class="item-name">${s.product.buyprice} ฿</span></td>
-                                 <tr>
-                                     <th colspan="2" class="text-right">Total</th>
-                                    <td><span class="item-name">${s.totalPrice} ฿</span></td></tr> 
                                 </c:forEach>
+                                <tr>
+                                     <th colspan="2" class="text-right">Total</th>
+                                     <td><span class="item-name">${All.totalPrice} ฿</span></td></tr>
                                 </tr>
                             </table>
                             </p>

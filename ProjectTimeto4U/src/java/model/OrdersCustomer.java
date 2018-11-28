@@ -97,6 +97,12 @@ public class OrdersCustomer implements Serializable {
     this.customernumber = customernumber;
   }
 
+    public OrdersCustomer(Integer ordernumber,String status) {
+        this.ordernumber = ordernumber;
+        this.status = status;
+        this.customernumber = customernumber;
+    }
+
   public Integer getOrdernumber() {
     return ordernumber;
   }
@@ -152,6 +158,15 @@ public class OrdersCustomer implements Serializable {
 
   public void setCustomernumber(Customer customernumber) {
     this.customernumber = customernumber;
+  }
+  
+  public boolean paidStatus(boolean checkPay){
+      if(checkPay){
+          this.status = "Paid";
+          return true;
+      }else{
+          return false;
+      }
   }
 
   @XmlTransient

@@ -46,28 +46,29 @@
                             <div class="row">
                                 <div class="column card-group">
                                     <label class="label" for="card">Card</label>
-                                    <input class="text-input card-input" id="cardno" placeholder="1234 5678 9012 3456"/>
+                                    <input class="text-input card-input" id="cardno" placeholder="1234 5678 9012 3456" name="cardno"/>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="column name-group">
                                     <label class="label" for="name">Name on Card</label>
-                                    <input class="text-input name-input" id="cardholder"/>
+                                    <input class="text-input name-input" id="cardholder" name="cardholder"/>
                                 </div>
                                 <div class="column expiry-group">
                                     <label class="label" for="expiry">Expiry</label>
-                                    <input class="text-input expiry-input" id="exp" placeholder="MMYYYY"/>
+                                    <input class="text-input expiry-input" id="exp" placeholder="MMYYYY" name="exp"/>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="column cvc-group">
-                                    <label class="label" for="cvc">CVC/Security Code</label>
-                                    <input class="text-input cvc-input" id="cvv"/>
+                                    <label class="label" for="cvc">CVV/Security Code</label>
+                                    <input class="text-input cvc-input" id="cvv" name="cvv"/>
                                 </div>
-                                <div class="column cvc-help">3-4 digit code. Usually on the back, by the signature.</div>
+                                <div class="column cvc-help">3 digit code. Usually on the back, by the signature.</div>
                             </div>
                         </div>
                         <div class="buttons">
+                            <p style="color: red">${messagePayment}</p>
                             <input class="order-button" type="submit" value="Pay Now">
                         </div>
                     </form>

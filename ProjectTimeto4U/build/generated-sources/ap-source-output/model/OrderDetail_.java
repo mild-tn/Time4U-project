@@ -7,7 +7,7 @@ import model.OrderDetailPK;
 import model.OrdersCustomer;
 import model.Product;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-11-29T00:38:33")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-11-29T02:09:33")
 @StaticMetamodel(OrderDetail.class)
 public class OrderDetail_ { 
 
