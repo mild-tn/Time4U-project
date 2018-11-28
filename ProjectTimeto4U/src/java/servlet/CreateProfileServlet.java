@@ -7,8 +7,12 @@ package servlet;
 
 import controller.AccountJpaController;
 import controller.CustomerJpaController;
+import controller.exceptions.NonexistentEntityException;
+import controller.exceptions.RollbackFailureException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
@@ -25,7 +29,7 @@ import model.Customer;
  *
  * @author Mild-TN
  */
-public class ProfileServlet extends HttpServlet {
+public class CreateProfileServlet extends HttpServlet {
 
   @PersistenceUnit(unitName = "ProjectTimeto4UPU")
   EntityManagerFactory emf;
@@ -34,24 +38,37 @@ public class ProfileServlet extends HttpServlet {
 
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
-    HttpSession session = request.getSession(false);
-    if (session != null) {
-      AccountJpaController accountJpaController = new AccountJpaController(utx, emf);
-      Account account = (Account) session.getAttribute("account");
-      Account accountId = accountJpaController.findAccount(account.getAccountId());
-      CustomerJpaController customerJpaController = new CustomerJpaController(utx, emf);
-      Customer customer = (Customer) session.getAttribute("customer");
-      Customer accountFind = customerJpaController.findCustomer(accountId.getAccountId());
-    System.out.println("-----------"+accountFind);
-      if (accountId != null) {
-        session.setAttribute("customer", accountFind);
-        getServletContext().getRequestDispatcher("/Profile.jsp").forward(request, response);
-      } else {
+    HttpSession session = request.getSession();
+    String fname = request.getParameter("fname");
+    String lname = request.getParameter("lname");
+    String email = request.getParameter("email");
+    String tel = request.getParameter("tel");
+    String sex = request.getParameter("gender");
+    String address = request.getParameter("address");
+    String city = request.getParameter("city");
+    String province = request.getParameter("province");
+    String country = request.getParameter("country");
+    String postCode = request.getParameter("postCode");
+    Customer customerSession = (Customer)session.getAttribute("customer");
+    System.out.println(fname + "-" + lname + "-" + email + "-" + tel + "-" + sex + "-" + address + "-" + city + "-" + province + "-" + country + "-" + postCode);
+    AccountJpaController accountJpaController = new AccountJpaController(utx, emf);
+    Account accountSession = (Account) session.getAttribute("account");
+    if (accountSession != null) {
+        Account account = accountJpaController.findByEmail(accountSession.getEmail());
+        CustomerJpaController customerJpaController = new CustomerJpaController(utx, emf);
+        Customer customer = new Customer(fname, lname, tel, address, city, province, postCode, country, sex, account);
+        try {
+          customerJpaController.create(customer);
+          session.setAttribute("customer", customer);
+          response.sendRedirect("Profile");
+          return;
+        } catch (Exception ex) {
+          Logger.getLogger(CreateProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+      }else{
+        getServletContext().getRequestDispatcher("/EditProfile.jsp").forward(request, response);
       }
-    } else {
-      response.sendRedirect("/Login.jsp");
-      return;
-    }
+    
   }
 
   // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

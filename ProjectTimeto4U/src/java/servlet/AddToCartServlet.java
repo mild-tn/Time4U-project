@@ -50,6 +50,7 @@ public class AddToCartServlet extends HttpServlet {
         session.setAttribute("shoppingCart",cart);
         session.setAttribute("productDetail", product);
         session.setAttribute("line", line);
+        System.out.println("Cart" + cart.getLineItems());
         getServletContext().getRequestDispatcher("/ProductDetail.jsp").forward(request, response);
     }
 

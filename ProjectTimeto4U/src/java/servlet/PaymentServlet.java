@@ -1,6 +1,6 @@
 package servlet;
 
-import controller.OrderscustomerJpaController;
+import controller.OrdersCustomerJpaController;
 import controller.PaymentJpaController;
 import controller.exceptions.RollbackFailureException;
 import java.io.IOException;
@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
-import model.Orderscustomer;
+import model.OrdersCustomer;
 import model.Payment;
 
 /**
@@ -33,11 +33,8 @@ public class PaymentServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-//        Orderscustomer orderCusSession = (Orderscustomer) session.getAttribute("orderCus");
-        OrderscustomerJpaController orderCusJpaCtrl = new OrderscustomerJpaController(utx, emf);
-        System.out.println("Helloooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
-//         Orderscustomer orderCus = orderCusJpaCtrl.findOrderscustomer(orderCusSession.getOrdernumber());
-        Orderscustomer orderCus = orderCusJpaCtrl.findOrderscustomer(1);
+        OrdersCustomerJpaController orderCusJpaCtrl = new OrdersCustomerJpaController(utx, emf);
+        OrdersCustomer orderCus = orderCusJpaCtrl.findOrdersCustomer(1);
         String cardHolder = request.getParameter("cardholder");
         String cardNo = request.getParameter("cardno");
         String exp = request.getParameter("exp");
@@ -84,43 +81,43 @@ public class PaymentServlet extends HttpServlet {
         getServletContext().getRequestDispatcher("/Payment.jsp").forward(request, response);
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
+  // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+  /**
+   * Handles the HTTP <code>GET</code> method.
+   *
+   * @param request servlet request
+   * @param response servlet response
+   * @throws ServletException if a servlet-specific error occurs
+   * @throws IOException if an I/O error occurs
+   */
+  @Override
+  protected void doGet(HttpServletRequest request, HttpServletResponse response)
+          throws ServletException, IOException {
+    processRequest(request, response);
+  }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
+  /**
+   * Handles the HTTP <code>POST</code> method.
+   *
+   * @param request servlet request
+   * @param response servlet response
+   * @throws ServletException if a servlet-specific error occurs
+   * @throws IOException if an I/O error occurs
+   */
+  @Override
+  protected void doPost(HttpServletRequest request, HttpServletResponse response)
+          throws ServletException, IOException {
+    processRequest(request, response);
+  }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+  /**
+   * Returns a short description of the servlet.
+   *
+   * @return a String containing servlet description
+   */
+  @Override
+  public String getServletInfo() {
+    return "Short description";
+  }// </editor-fold>
 
 }

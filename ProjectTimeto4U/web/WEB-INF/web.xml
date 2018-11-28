@@ -60,6 +60,14 @@
         <servlet-name>OrderListServlet</servlet-name>
         <servlet-class>servlet.OrderListServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>EditProfileServlet</servlet-name>
+        <servlet-class>servlet.EditProfileServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CreateProfileServlet</servlet-name>
+        <servlet-class>servlet.CreateProfileServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AddToCartServlet</servlet-name>
         <url-pattern>/AddToCart</url-pattern>
@@ -119,6 +127,14 @@
     <servlet-mapping>
         <servlet-name>OrderListServlet</servlet-name>
         <url-pattern>/OrderList</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditProfileServlet</servlet-name>
+        <url-pattern>/EditProfile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateProfileServlet</servlet-name>
+        <url-pattern>/CreateProfile</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

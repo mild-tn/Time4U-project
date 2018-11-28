@@ -24,10 +24,6 @@
                     <div class="col-md-5">
                         <div class="profile-img">
                             <img src="include/img/forPage/1024px-Circle-icons-profile.png" alt=""/>
-<!--                            <div class="file btn btn-lg btn-primary">
-                                Change Photo
-                                <input type="file" name="file"/>
-                            </div>-->
                         </div>
                     </div>
                     <div class="col-md-5">
@@ -44,12 +40,12 @@
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Edit Profile"/>
+                        <a href="${customer == null ? 'CreateProfile':'EditProfile'}" class="profile-edit-btn btn btn-outline-dark" name="btnAddMore">Edit Profile</a>
                     </div>
                 </div>
-                 <div class="row">
+                <div class="row">
                     <div class="col-md-5">
-                        
+
                     </div>
                     <div class="col-md-7">
                         <div class="tab-content profile-tab" id="myTabContent">
@@ -85,7 +81,7 @@
                                         <label>Address</label>
                                     </div>
                                     <div class="col-md-6">
-                                        <p>${customer.addressline1} ${customer.city} ${customer.country} ${customer.postalcode}</p>
+                                        <p>${customer.address} ${customer.city} ${customer.country} ${customer.postalcode}</p>
                                     </div>
                                 </div>
                             </div>

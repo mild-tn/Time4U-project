@@ -19,67 +19,71 @@ import javax.validation.constraints.Size;
 @Embeddable
 public class OrderDetailPK implements Serializable {
 
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "ORDERNUMBER")
-    private int ordernumber;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 15)
-    @Column(name = "PRODUCTCODE")
-    private String productcode;
+  @Basic(optional = false)
+  @NotNull
+  @Column(name = "ORDERNUMBER")
+  private int ordernumber;
+  @Basic(optional = false)
+  @NotNull
+  @Size(min = 1, max = 15)
+  @Column(name = "PRODUCTCODE")
+  private String productcode;
 
-    public OrderDetailPK() {
-    }
+  public OrderDetailPK() {
+  }
 
-    public OrderDetailPK(int ordernumber, String productcode) {
-        this.ordernumber = ordernumber;
-        this.productcode = productcode;
-    }
+  public OrderDetailPK(int ordernumber, String productcode) {
+    this.ordernumber = ordernumber;
+    this.productcode = productcode;
+  }
 
-    public int getOrdernumber() {
-        return ordernumber;
-    }
+  public OrderDetailPK(String productcode) {
+    this.productcode = productcode;
+  }
 
-    public void setOrdernumber(int ordernumber) {
-        this.ordernumber = ordernumber;
-    }
+  public int getOrdernumber() {
+    return ordernumber;
+  }
 
-    public String getProductcode() {
-        return productcode;
-    }
+  public void setOrdernumber(int ordernumber) {
+    this.ordernumber = ordernumber;
+  }
 
-    public void setProductcode(String productcode) {
-        this.productcode = productcode;
-    }
+  public String getProductcode() {
+    return productcode;
+  }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (int) ordernumber;
-        hash += (productcode != null ? productcode.hashCode() : 0);
-        return hash;
-    }
+  public void setProductcode(String productcode) {
+    this.productcode = productcode;
+  }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof OrderDetailPK)) {
-            return false;
-        }
-        OrderDetailPK other = (OrderDetailPK) object;
-        if (this.ordernumber != other.ordernumber) {
-            return false;
-        }
-        if ((this.productcode == null && other.productcode != null) || (this.productcode != null && !this.productcode.equals(other.productcode))) {
-            return false;
-        }
-        return true;
-    }
+  @Override
+  public int hashCode() {
+    int hash = 0;
+    hash += (int) ordernumber;
+    hash += (productcode != null ? productcode.hashCode() : 0);
+    return hash;
+  }
 
-    @Override
-    public String toString() {
-        return "models.OrderDetailPK[ ordernumber=" + ordernumber + ", productcode=" + productcode + " ]";
+  @Override
+  public boolean equals(Object object) {
+    // TODO: Warning - this method won't work in the case the id fields are not set
+    if (!(object instanceof OrderDetailPK)) {
+      return false;
     }
-    
+    OrderDetailPK other = (OrderDetailPK) object;
+    if (this.ordernumber != other.ordernumber) {
+      return false;
+    }
+    if ((this.productcode == null && other.productcode != null) || (this.productcode != null && !this.productcode.equals(other.productcode))) {
+      return false;
+    }
+    return true;
+  }
+
+  @Override
+  public String toString() {
+    return "models.OrderDetailPK[ ordernumber=" + ordernumber + ", productcode=" + productcode + " ]";
+  }
+
 }
