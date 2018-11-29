@@ -40,7 +40,7 @@
                     </label>
                 </div>
                 <div class="col-lg-4 push-lg-4 personal-info">
-                    <form role="form" action="${cutomer != null ? 'CreateProfile':'EditProfile'}">
+                    <form role="form" action="${cutomer == null ? 'CreateProfile':'EditProfile'}">
                         <div class="form-group row">
                             <div class="col-lg-9">
                                 <input class="form-control" type="text" name="fname" placeholder="First name" required/>

@@ -9,7 +9,7 @@ import model.Customer;
 import model.OrderDetail;
 import model.Payment;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-11-29T15:26:28")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-11-29T18:20:48")
 @StaticMetamodel(OrdersCustomer.class)
 public class OrdersCustomer_ { 
 

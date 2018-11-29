@@ -20,6 +20,7 @@ import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
 import model.Account;
 import model.Cart;
+import model.Customer;
 import model.OrdersCustomer;
 import model.Payment;
 
@@ -38,28 +39,31 @@ public class PaymentServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         OrdersCustomerJpaController orderCusJpaCtrl = new OrdersCustomerJpaController(utx, emf);
-        Account sessionAcc = (Account) session.getAttribute("account");
-        OrdersCustomer orderCusAcc = orderCusJpaCtrl.findOrdersCustomer(sessionAcc.getAccountId());
+        OrdersCustomer orderCus = (OrdersCustomer) session.getAttribute("oderCustomer");
+        OrdersCustomer ordersCustomer = orderCusJpaCtrl.findOrdersCustomer(orderCus.getOrdernumber());
         String cardHolder = request.getParameter("cardholder");
         String cardNo = request.getParameter("cardno");
         String exp = request.getParameter("exp");
         String cvv = request.getParameter("cvv");
         PaymentJpaController paymentJpaCtrl = new PaymentJpaController(utx, emf);
         Payment payment = paymentJpaCtrl.findPayment(cardNo);
+        System.out.println(payment);
         if (payment != null) {
-                if (cardNo != null && cardNo.length() > 0 && cardNo.length() == 16 && cardNo.equals(payment.getCardnumber())) {
-                    if (cardHolder != null && cardHolder.length() > 0 && cardHolder.equalsIgnoreCase(payment.getCardholder())) {
+            if (cardNo != null && cardNo.length() > 0 && cardNo.length() == 16 && cardNo.equals(payment.getCardnumber())) {
+                if (cardHolder != null && cardHolder.length() > 0 && cardHolder.equalsIgnoreCase(payment.getCardholder())) {
                     if (exp != null && exp.equals(payment.getExpireMonth() + payment.getExpireYear())) {
                         if (cvv != null && cvv.length() > 0 && cvv.equals(payment.getCvv())) {
-                            boolean checkPay = payment.payMent(orderCusAcc,orderCusAcc.getTotalprice());
+                            boolean checkPay = payment.payMent(orderCus,orderCus.getTotalprice());
                             if (checkPay) {
-                                boolean checkStatus = orderCusAcc.paidStatus(checkPay);
-                                if(checkStatus){
-                                       System.out.println("orderCusStatus"+orderCusAcc);
+                                boolean checkStatus = orderCus.paidStatus(checkPay);
+                                String status = "paid";
+                                ordersCustomer.editCus(status);
+                                if (checkStatus) {
+                                    System.out.println("orderCusStatusgjsdbgisbigsigaisdog" + orderCus.getStatus());
                                     try {
                                         paymentJpaCtrl.edit(payment);
-                                        orderCusJpaCtrl.edit(orderCusAcc);
-                                        session.setAttribute("Orderscustomer", orderCusAcc);
+                                        orderCusJpaCtrl.edit(ordersCustomer);
+                                        session.setAttribute("Orderscustomer", orderCus);
                                         session.getAttribute("shoppingCart");
                                         session.removeAttribute("shoppingCart");
                                         response.sendRedirect("Receipt.jsp");
@@ -69,10 +73,10 @@ public class PaymentServlet extends HttpServlet {
                                     } catch (Exception ex) {
                                         Logger.getLogger(PaymentServlet.class.getName()).log(Level.SEVERE, null, ex);
                                     }
-                                    }else {
+                                } else {
                                     session.setAttribute("messagePayment", "Unsucessful Pay!!!");
                                 }
-                                }
+                            }
                         } else {
                             session.setAttribute("messagePayment", "CVV Wrong!!");
                         }
