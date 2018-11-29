@@ -32,7 +32,6 @@ import model.Register;
  */
 public class ActivateKeyServlet extends HttpServlet {
 
-<<<<<<< HEAD
   @PersistenceUnit(unitName = "ProjectTimeto4UPU")
   EntityManagerFactory emf;
   @Resource
@@ -40,7 +39,8 @@ public class ActivateKeyServlet extends HttpServlet {
 
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
-    String email = request.getParameter("email");
+    HttpSession session = request.getSession();
+    String email = (String) session.getAttribute("emailRe");
     String activateKey = request.getParameter("activatekey");
     boolean isActivated = false;
     if (email != null && activateKey != null && activateKey.length() > 0) {
@@ -48,13 +48,9 @@ public class ActivateKeyServlet extends HttpServlet {
       AccountJpaController accountJpaCtrl = new AccountJpaController(utx, emf);
       Register register = regJpaCtrl.findByEmail(email);
       if (register != null) {
-        System.out.println("regisssssss : " + register.getRegisterId());
         if (activateKey.equals(register.getActivatekey())) {
           register.setActivatedate(new Date());
           Account account = new Account(email, register.getPassword(), register);
-          System.out.println(" register ID : " + register.getEmail());
-          System.err.println("Re" + register.getPassword());
-          System.out.println("acoount" + account);
           try {
             regJpaCtrl.edit(register);
             accountJpaCtrl.create(account);
@@ -72,53 +68,12 @@ public class ActivateKeyServlet extends HttpServlet {
           //Alert BY JS
           request.setAttribute("messageActivate", "Wrong!!!!! Try Again");
           response.sendRedirect("ActivateAccount.jsp");
-=======
-    @PersistenceUnit(unitName = "ProjectTimeto4UPU")
-    EntityManagerFactory emf;
-    @Resource
-    UserTransaction utx;
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        HttpSession session = request.getSession();
-       String email = (String) session.getAttribute("emailRe");
-        String activateKey = request.getParameter("activatekey");
-        boolean isActivated = false;
-        if (email != null && activateKey != null && activateKey.length() > 0) {
-            RegisterJpaController regJpaCtrl = new RegisterJpaController(utx, emf);
-            AccountJpaController accountJpaCtrl = new AccountJpaController(utx, emf);
-            Register register = regJpaCtrl.findByEmail(email);
-            if (register != null) {
-                if (activateKey.equals(register.getActivatekey())) {
-                    register.setActivatedate(new Date());
-                    Account account = new Account(email,register.getPassword(),register);
-                    try {
-                        regJpaCtrl.edit(register);
-                        accountJpaCtrl.create(account);
-                        isActivated = true;
-                        request.setAttribute("isActivated", isActivated);
-                        getServletContext().getRequestDispatcher("/HomePage.jsp").forward(request, response);
-                    } catch (NonexistentEntityException ex) {
-                        Logger.getLogger(ActivateKeyServlet.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (RollbackFailureException ex) {
-                        Logger.getLogger(ActivateKeyServlet.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (Exception ex) {
-                        Logger.getLogger(ActivateKeyServlet.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }else {
-                //Alert BY JS
-                request.setAttribute("messageActivate", "Wrong!!!!! Try Again");
-                response.sendRedirect("ActivateAccount.jsp");
-            }
-            } else{
-                getServletContext().getRequestDispatcher("/index.html").forward(request, response);
-            }
->>>>>>> effcc2ddd5e69d477c291e9931f9818f2e78b6ec
         }
       } else {
         getServletContext().getRequestDispatcher("/index.html").forward(request, response);
       }
     } else {
-      System.out.println("test");
+      getServletContext().getRequestDispatcher("/index.html").forward(request, response);
     }
   }
 
