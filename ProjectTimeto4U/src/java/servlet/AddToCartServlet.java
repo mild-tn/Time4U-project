@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package servlet;
 
 import controller.ProductJpaController;
@@ -42,10 +37,9 @@ public class AddToCartServlet extends HttpServlet {
         Cart cart = (Cart) session.getAttribute("shoppingCart");
         ProductJpaController productJpaCtrl = new ProductJpaController(utx, emf);
         Product product = productJpaCtrl.findProduct(item);
-        LineItem line = new LineItem(product,1);
+        LineItem line = new LineItem();
         line.setProduct(product);
         line.setQuantity(line.getQuantity());
-        System.out.println("line"+ line.getProduct() + line.getQuantity() * line.getTotalPrice());
         cart.add(product);
         session.setAttribute("shoppingCart",cart);
         session.setAttribute("productDetail", product);

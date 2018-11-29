@@ -3,20 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
             <file>file:/D:/int303/Project/Time4U-project/ProjectTimeto4U/src/java/servlet/AddToCartServlet.java</file>
-            <file>file:/D:/int303/Project/Time4U-project/ProjectTimeto4U/src/java/model/Cart.java</file>
+            <file>file:/D:/int303/Project/Time4U-project/ProjectTimeto4U/src/java/controller/OrdersCustomerJpaController.java</file>
             <file>file:/D:/int303/Project/Time4U-project/ProjectTimeto4U/src/java/servlet/ShowProductServlet.java</file>
             <file>file:/D:/int303/Project/Time4U-project/ProjectTimeto4U/src/java/controller/ProductJpaController.java</file>
             <file>file:/D:/int303/Project/Time4U-project/ProjectTimeto4U/web/ProductList.jsp</file>
             <file>file:/D:/int303/Project/Time4U-project/ProjectTimeto4U/src/java/servlet/ProductDetailServlet.java</file>
-=======
-            <file>file:/C:/Users/kao-t/Documents/NetBeansProjects/Time4U-project/ProjectTimeto4U/src/java/servlet/PaymentServlet.java</file>
-            <file>file:/C:/Users/kao-t/Documents/NetBeansProjects/Time4U-project/ProjectTimeto4U/src/java/servlet/CheckoutServlet.java</file>
-            <file>file:/C:/Users/kao-t/Documents/NetBeansProjects/Time4U-project/ProjectTimeto4U/src/java/servlet/LoginServlet.java</file>
-            <file>file:/C:/Users/kao-t/Documents/NetBeansProjects/Time4U-project/ProjectTimeto4U/src/java/model/Customer.java</file>
-            <file>file:/C:/Users/kao-t/Documents/NetBeansProjects/Time4U-project/ProjectTimeto4U/src/java/model/Payment.java</file>
->>>>>>> effcc2ddd5e69d477c291e9931f9818f2e78b6ec
         </group>
     </open-files>
 </project-private>

@@ -1,5 +1,6 @@
 package servlet;
 
+import controller.CustomerJpaController;
 import controller.OrderDetailJpaController;
 import controller.OrdersCustomerJpaController;
 import controller.PaymentJpaController;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
 import model.Account;
 import model.Cart;
+import model.Customer;
 import model.OrdersCustomer;
 import model.Payment;
 
@@ -38,8 +40,9 @@ public class PaymentServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         OrdersCustomerJpaController orderCusJpaCtrl = new OrdersCustomerJpaController(utx, emf);
-        Account sessionAcc = (Account) session.getAttribute("account");
-        OrdersCustomer orderCusAcc = orderCusJpaCtrl.findOrdersCustomer(sessionAcc.getAccountId());
+        Customer sessionCutomer = (Customer) session.getAttribute("customer");
+        OrdersCustomer orderCusAcc = orderCusJpaCtrl.findOrdersCustomer(sessionCutomer.getCustomernumber());
+        System.out.println("orderCusAcc"+orderCusAcc);
         String cardHolder = request.getParameter("cardholder");
         String cardNo = request.getParameter("cardno");
         String exp = request.getParameter("exp");
@@ -52,7 +55,11 @@ public class PaymentServlet extends HttpServlet {
                     if (exp != null && exp.equals(payment.getExpireMonth() + payment.getExpireYear())) {
                         if (cvv != null && cvv.length() > 0 && cvv.equals(payment.getCvv())) {
                             boolean checkPay = payment.payMent(orderCusAcc,orderCusAcc.getTotalprice());
+                            System.out.println(orderCusAcc);
+                            System.out.println(orderCusAcc.getTotalprice());
+                            System.out.println("Helloooooooooooooooooooooooooooooooooo"+checkPay);
                             if (checkPay) {
+                              System.out.println("Helloooooooooooooooooooooooooooooooo");
                                 boolean checkStatus = orderCusAcc.paidStatus(checkPay);
                                 if(checkStatus){
                                        System.out.println("orderCusStatus"+orderCusAcc);
