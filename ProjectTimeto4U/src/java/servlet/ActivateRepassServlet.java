@@ -5,11 +5,9 @@
  */
 package servlet;
 
-import controller.AccountJpaController;
+import controller.RegisterJpaController;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import javax.annotation.Resource;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
@@ -19,13 +17,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
-import model.Account;
+import model.Register;
 
 /**
  *
  * @author Mild-TN
  */
-public class LoginServlet extends HttpServlet {
+public class ActivateRepassServlet extends HttpServlet {
 
   @PersistenceUnit(unitName = "ProjectTimeto4UPU")
   EntityManagerFactory emf;
@@ -36,48 +34,31 @@ public class LoginServlet extends HttpServlet {
           throws ServletException, IOException {
     HttpSession session = request.getSession(false);
     String email = request.getParameter("email");
-    String pass = request.getParameter("pass");
-    pass = cryptWithMD5(pass);
+    session.setAttribute("email", email);
+    String activateKey = request.getParameter("activatekey");
+    boolean isActivated = false;
     if (session != null) {
-      if (email != null && email.length() > 0 && pass != null && pass.length() > 0) {
-        AccountJpaController accountJpaCtrl = new AccountJpaController(utx, emf);
-        Account ac = accountJpaCtrl.findByEmail(email);
-        System.out.println("email" + ac);
-        if (ac != null) {
-            System.out.println("email" + ac);
-          if (ac.getPassword().equals(pass)) {
-              System.out.println("email" + ac);
-            session.setAttribute("account", ac);
-            session.setAttribute("message", "Login");
-            getServletContext().getRequestDispatcher("/HomePage.jsp").forward(request, response);
-            return;
-          }
-        } 
-      }
-    } 
-          session.setAttribute("error", "Invalid Email or Password !");
-      getServletContext().getRequestDispatcher("/Login.jsp").forward(request, response);
-    
-  }
+      if (email != null && activateKey != null && activateKey.length() > 0) {
+        RegisterJpaController regJpaCtrl = new RegisterJpaController(utx, emf);
+        Register register = regJpaCtrl.findByEmail(email);
+        if (activateKey.equals(register.getActivatekey())) {
+          isActivated = true;
+          request.setAttribute("isActivated", isActivated);
+          session.setAttribute("email", email);
+          getServletContext().getRequestDispatcher("/Resetpassword.jsp").forward(request, response);
+          return;
+        } else {
+          request.setAttribute("MsActivate", "Invalid Activate");
+          getServletContext().getRequestDispatcher("/ActivateRepass.jsp").forward(request, response);
 
-  public static String cryptWithMD5(String pass) {
-    try {
-      MessageDigest md = MessageDigest.getInstance("MD5");
-      byte[] passBytes = pass.getBytes();
-      md.reset();
-      byte[] digested = md.digest(passBytes);
-      StringBuffer sb = new StringBuffer();
-      for (int i = 0; i < digested.length; i++) {
-        sb.append(Integer.toHexString(0xff & digested[i]));
+        }
+
       }
-      return sb.toString();
-    } catch (NoSuchAlgorithmException ex) {
-      System.out.println(ex);
     }
-    return null;
+    getServletContext().getRequestDispatcher("/Resetpassword.jsp").forward(request, response);
   }
 
-  // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
   /**
    * Handles the HTTP <code>GET</code> method.
    *

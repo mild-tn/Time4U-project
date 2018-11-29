@@ -8,8 +8,6 @@ package servlet;
 import controller.AccountJpaController;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import javax.annotation.Resource;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
@@ -25,7 +23,7 @@ import model.Account;
  *
  * @author Mild-TN
  */
-public class LoginServlet extends HttpServlet {
+public class CheckmailRepassServlet extends HttpServlet {
 
   @PersistenceUnit(unitName = "ProjectTimeto4UPU")
   EntityManagerFactory emf;
@@ -36,45 +34,25 @@ public class LoginServlet extends HttpServlet {
           throws ServletException, IOException {
     HttpSession session = request.getSession(false);
     String email = request.getParameter("email");
-    String pass = request.getParameter("pass");
-    pass = cryptWithMD5(pass);
+    session.setAttribute("email", email);
     if (session != null) {
-      if (email != null && email.length() > 0 && pass != null && pass.length() > 0) {
+      if (email != null && email.length() > 0) {
         AccountJpaController accountJpaCtrl = new AccountJpaController(utx, emf);
         Account ac = accountJpaCtrl.findByEmail(email);
-        System.out.println("email" + ac);
         if (ac != null) {
-            System.out.println("email" + ac);
-          if (ac.getPassword().equals(pass)) {
-              System.out.println("email" + ac);
-            session.setAttribute("account", ac);
-            session.setAttribute("message", "Login");
-            getServletContext().getRequestDispatcher("/HomePage.jsp").forward(request, response);
-            return;
+          if (email.equalsIgnoreCase(ac.getEmail())) {
+            session.setAttribute("email", email);
+            session.setAttribute("checkemail", ac);
+            getServletContext().getRequestDispatcher("/ActivateRepass.jsp").forward(request, response);
           }
-        } 
-      }
-    } 
-          session.setAttribute("error", "Invalid Email or Password !");
-      getServletContext().getRequestDispatcher("/Login.jsp").forward(request, response);
-    
-  }
 
-  public static String cryptWithMD5(String pass) {
-    try {
-      MessageDigest md = MessageDigest.getInstance("MD5");
-      byte[] passBytes = pass.getBytes();
-      md.reset();
-      byte[] digested = md.digest(passBytes);
-      StringBuffer sb = new StringBuffer();
-      for (int i = 0; i < digested.length; i++) {
-        sb.append(Integer.toHexString(0xff & digested[i]));
+        }
       }
-      return sb.toString();
-    } catch (NoSuchAlgorithmException ex) {
-      System.out.println(ex);
+
     }
-    return null;
+
+    session.setAttribute("message", "Invalid Email !!! ");
+    getServletContext().getRequestDispatcher("/ForgetPassword.jsp").forward(request, response);
   }
 
   // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

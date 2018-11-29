@@ -9,9 +9,8 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Login Page</title>
+        <title>Reset Password Page</title>
         <link rel="stylesheet" href="include/css/Login.style.css"/>
-        <link rel="icon" type="image/png" sizes="64x64" href="images/oie_transparent.png">
     </head>
     <style>
         body h1{
@@ -20,17 +19,19 @@
     </style>
     <body>
         <jsp:include page="include/NavBar.jsp"/>
-        <form action="Login" method="post">
+        <form action="CheckmailRepass" method="post">
             <div id="overlay"></div>
             <div class="loginbox">
-                <h1>Sign in</h1><br>
-
-                <input type="text" name="email" placeholder="Username"><br>
-                <input type="password" name="pass" placeholder="Password">
-                <input type="submit" value="LOGIN">
+                <h2>Forgot Password</h2><br>
+                <br>
+                <input type="text" name="email" placeholder="Email">
+                <br>
+                <p style="text-align: center">${message}</p>
+                <br>
+                <input type="submit" value="send">
                 </form>
-                <p style="color: red">${error}</p> 
-                <a href="ForgetPassword.jsp">Forgot Password?</a><br>
+                <span id="text-account">Already registered? </span>
+                <a id="create-account" <a href="Login.jsp">Sign In</a></a><br>
                 <span id="text-account">Don't have an account?</span>
                 <a id="create-account" href="Register.jsp"> Create here.</a>
             </div>

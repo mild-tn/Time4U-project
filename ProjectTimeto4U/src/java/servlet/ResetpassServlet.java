@@ -6,10 +6,14 @@
 package servlet;
 
 import controller.AccountJpaController;
+import controller.exceptions.NonexistentEntityException;
+import controller.exceptions.RollbackFailureException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
@@ -25,39 +29,49 @@ import model.Account;
  *
  * @author Mild-TN
  */
-public class LoginServlet extends HttpServlet {
+public class ResetpassServlet extends HttpServlet {
 
-  @PersistenceUnit(unitName = "ProjectTimeto4UPU")
-  EntityManagerFactory emf;
-  @Resource
-  UserTransaction utx;
-
+   @PersistenceUnit(unitName = "ProjectTimeto4UPU")
+    EntityManagerFactory emf;
+    @Resource
+    UserTransaction utx;
+    
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
     HttpSession session = request.getSession(false);
     String email = request.getParameter("email");
-    String pass = request.getParameter("pass");
-    pass = cryptWithMD5(pass);
+    String password = request.getParameter("pass");
+    String conPass = request.getParameter("confirmpass");
     if (session != null) {
-      if (email != null && email.length() > 0 && pass != null && pass.length() > 0) {
+      if (email != null && email.length() > 0 && password != null && password.length() > 0 && conPass != null && conPass.length() > 0) {
         AccountJpaController accountJpaCtrl = new AccountJpaController(utx, emf);
         Account ac = accountJpaCtrl.findByEmail(email);
-        System.out.println("email" + ac);
-        if (ac != null) {
-            System.out.println("email" + ac);
-          if (ac.getPassword().equals(pass)) {
-              System.out.println("email" + ac);
-            session.setAttribute("account", ac);
-            session.setAttribute("message", "Login");
-            getServletContext().getRequestDispatcher("/HomePage.jsp").forward(request, response);
+        if (password.equals(conPass)) {
+          password = cryptWithMD5(conPass);
+          String checkPass = ac.checkPass(password);
+          System.out.println("---------------" + ac + checkPass);
+          try {
+            accountJpaCtrl.edit(ac);
+            session.setAttribute("NewPass", ac);
+            System.out.println("/////////////////////" + ac);
+            getServletContext().getRequestDispatcher("/Login.jsp").forward(request, response);
             return;
+          } catch (NonexistentEntityException ex) {
+            Logger.getLogger(ResetpassServlet.class.getName()).log(Level.SEVERE, null, ex);
+          } catch (RollbackFailureException ex) {
+            Logger.getLogger(ResetpassServlet.class.getName()).log(Level.SEVERE, null, ex);
+          } catch (Exception ex) {
+            Logger.getLogger(ResetpassServlet.class.getName()).log(Level.SEVERE, null, ex);
           }
-        } 
+        } else {
+          session.setAttribute("messageError", "Invalid password");
+        }
+
+        session.setAttribute("messageError", "Something Wrong,please try again!!");
+
       }
-    } 
-          session.setAttribute("error", "Invalid Email or Password !");
-      getServletContext().getRequestDispatcher("/Login.jsp").forward(request, response);
-    
+    }
+    getServletContext().getRequestDispatcher("/Resetpassword.jsp").forward(request, response);
   }
 
   public static String cryptWithMD5(String pass) {

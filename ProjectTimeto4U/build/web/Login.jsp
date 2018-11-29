@@ -30,7 +30,7 @@
                 <input type="submit" value="LOGIN">
                 </form>
                 <p style="color: red">${error}</p> 
-                <a href="ResetPassword.jsp">Forgot Password?</a><br>
+                <a href="ForgetPassword.jsp">Forgot Password?</a><br>
                 <span id="text-account">Don't have an account?</span>
                 <a id="create-account" href="Register.jsp"> Create here.</a>
             </div>

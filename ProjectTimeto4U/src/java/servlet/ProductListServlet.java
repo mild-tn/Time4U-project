@@ -50,7 +50,7 @@ public class ProductListServlet extends HttpServlet {
                 if (products.isEmpty()) {
                     products = productJpaCtrl.findByProductType(productName);
                     if (products.isEmpty()) {
-                        request.setAttribute("message", "Product '" + productName + " ' does not exist !!!");
+                        request.setAttribute("message", " Product ' " + productName + " ' does not exist !!!");
                     }
 
                 }

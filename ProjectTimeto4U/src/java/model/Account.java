@@ -33,118 +33,126 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "ACCOUNT")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Account.findAll", query = "SELECT a FROM Account a")
-    , @NamedQuery(name = "Account.findByAccountId", query = "SELECT a FROM Account a WHERE a.accountId = :accountId")
-    , @NamedQuery(name = "Account.findByEmail", query = "SELECT a FROM Account a WHERE a.email = :email")
-    , @NamedQuery(name = "Account.findByPassword", query = "SELECT a FROM Account a WHERE a.password = :password")})
+  @NamedQuery(name = "Account.findAll", query = "SELECT a FROM Account a")
+  , @NamedQuery(name = "Account.findByAccountId", query = "SELECT a FROM Account a WHERE a.accountId = :accountId")
+  , @NamedQuery(name = "Account.findByEmail", query = "SELECT a FROM Account a WHERE a.email = :email")
+  , @NamedQuery(name = "Account.findByPassword", query = "SELECT a FROM Account a WHERE a.password = :password")})
 public class Account implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "ACCOUNT_ID")
-    private Integer accountId;
-    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "EMAIL")
-    private String email;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "PASSWORD")
-    private String password;
-    @JoinColumn(name = "REGISTER_ID", referencedColumnName = "REGISTER_ID")
-    @ManyToOne(optional = false)
-    private Register registerId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountId")
-    private List<Customer> customerList;
+  private static final long serialVersionUID = 1L;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Basic(optional = false)
+  @Column(name = "ACCOUNT_ID")
+  private Integer accountId;
+  // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
+  @Basic(optional = false)
+  @NotNull
+  @Size(min = 1, max = 100)
+  @Column(name = "EMAIL")
+  private String email;
+  @Basic(optional = false)
+  @NotNull
+  @Size(min = 1, max = 100)
+  @Column(name = "PASSWORD")
+  private String password;
+  @JoinColumn(name = "REGISTER_ID", referencedColumnName = "REGISTER_ID")
+  @ManyToOne(optional = false)
+  private Register registerId;
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountId")
+  private List<Customer> customerList;
 
-    public Account() {
-    }
+  public Account() {
+  }
 
-    public Account(Integer accountId) {
-        this.accountId = accountId;
-    }
+  public Account(Integer accountId) {
+    this.accountId = accountId;
+  }
 
-    public Account(Integer accountId, String email, String password) {
-        this.accountId = accountId;
-        this.email = email;
-        this.password = password;
-    }
+  public Account(Integer accountId, String email, String password) {
+    this.accountId = accountId;
+    this.email = email;
+    this.password = password;
+  }
 
-    public Account(String email, String password, Register registerId) {
-        this.email = email;
-        this.password = password;
-        this.registerId = registerId;
-    }
+  public Account(String email, String password, Register registerId) {
+    this.email = email;
+    this.password = password;
+    this.registerId = registerId;
+  }
 
-    public Integer getAccountId() {
-        return accountId;
+  public String checkPass(String newPass) {
+    if (!newPass.equals(this.getPassword())) {
+      this.password = newPass;
     }
+    return newPass;
 
-    public void setAccountId(Integer accountId) {
-        this.accountId = accountId;
-    }
+  }
 
-    public String getEmail() {
-        return email;
-    }
+  public Integer getAccountId() {
+    return accountId;
+  }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+  public void setAccountId(Integer accountId) {
+    this.accountId = accountId;
+  }
 
-    public String getPassword() {
-        return password;
-    }
+  public String getEmail() {
+    return email;
+  }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+  public void setEmail(String email) {
+    this.email = email;
+  }
 
-    public Register getRegisterId() {
-        return registerId;
-    }
+  public String getPassword() {
+    return password;
+  }
 
-    public void setRegisterId(Register registerId) {
-        this.registerId = registerId;
-    }
+  public void setPassword(String password) {
+    this.password = password;
+  }
 
-    @XmlTransient
-    public List<Customer> getCustomerList() {
-        return customerList;
-    }
+  public Register getRegisterId() {
+    return registerId;
+  }
 
-    public void setCustomerList(List<Customer> customerList) {
-        this.customerList = customerList;
-    }
+  public void setRegisterId(Register registerId) {
+    this.registerId = registerId;
+  }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (accountId != null ? accountId.hashCode() : 0);
-        return hash;
-    }
+  @XmlTransient
+  public List<Customer> getCustomerList() {
+    return customerList;
+  }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Account)) {
-            return false;
-        }
-        Account other = (Account) object;
-        if ((this.accountId == null && other.accountId != null) || (this.accountId != null && !this.accountId.equals(other.accountId))) {
-            return false;
-        }
-        return true;
-    }
+  public void setCustomerList(List<Customer> customerList) {
+    this.customerList = customerList;
+  }
 
-    @Override
-    public String toString() {
-        return "models.Account[ accountId=" + accountId + " ]";
+  @Override
+  public int hashCode() {
+    int hash = 0;
+    hash += (accountId != null ? accountId.hashCode() : 0);
+    return hash;
+  }
+
+  @Override
+  public boolean equals(Object object) {
+    // TODO: Warning - this method won't work in the case the id fields are not set
+    if (!(object instanceof Account)) {
+      return false;
     }
+    Account other = (Account) object;
+    if ((this.accountId == null && other.accountId != null) || (this.accountId != null && !this.accountId.equals(other.accountId))) {
+      return false;
+    }
+    return true;
+  }
+
+  @Override
+  public String toString() {
+    return "models.Account[ accountId=" + accountId + " ]";
+  }
 
 }
