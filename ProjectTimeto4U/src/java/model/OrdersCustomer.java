@@ -76,6 +76,7 @@ public class OrdersCustomer implements Serializable {
   private List<OrderDetail> orderDetailList;
 
   public OrdersCustomer() {
+    this.ordernumber = ordernumber;
   }
 
   public OrdersCustomer(Integer ordernumber) {
@@ -88,6 +89,7 @@ public class OrdersCustomer implements Serializable {
     this.status = status;
     this.totalprice = totalprice;
   }
+  
 
   public OrdersCustomer(Date requireddate, Date shippeddate, String status, int totalprice, Customer customernumber) {
     this.requireddate = requireddate;
@@ -97,7 +99,7 @@ public class OrdersCustomer implements Serializable {
     this.customernumber = customernumber;
   }
 
-    public OrdersCustomer(Integer ordernumber,String status) {
+    public OrdersCustomer(String status) {
         this.ordernumber = ordernumber;
         this.status = status;
         this.customernumber = customernumber;
@@ -163,10 +165,15 @@ public class OrdersCustomer implements Serializable {
   public boolean paidStatus(boolean checkPay){
       if(checkPay){
           this.status = "Paid";
+          this.ordernumber = ordernumber;
           return true;
       }else{
           return false;
       }
+  }
+  
+  public void editCus(String status){
+      this.status=status;
   }
 
   @XmlTransient

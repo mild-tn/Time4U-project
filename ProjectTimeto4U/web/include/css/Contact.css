@@ -1,142 +1,112 @@
-﻿body {
-  background: #efefef;
-  font-size: 62.5%;
-  font-family: 'Lato', sans-serif;
-  font-weight: 300;
-  color: #B6B6B6;
+
+@import url(https://fonts.googleapis.com/css?family=Raleway:400,300,500,700);
+#ajerez {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  z-index: 9999;
+}
+#ajerez img {
+  box-sizing: border-box;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: 2px solid #7482A5;
+  transition: border-radius 0.2s ease-in-out;
+}
+#ajerez img:hover {
+  border-radius: 30%;
   
 }
-body section {
-  background: white;
-/*  background-size: cover ;*/
-  margin: 60px auto 120px;
-  /*border-top: 15px solid #313A3D;*/
-  text-align: center;
-  padding: 50px 0 110px;
-  width: 80%;
-  max-width: 1100px;
-}
-body section h1 {
-  margin-bottom: 40px;
-  font-size: 4em;
-  text-transform: uppercase;
-  font-family: 'Lato', sans-serif;
-  font-weight: 100;
+
+html {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background-color: #1F3944;
+  -webkit-font-smoothing: antialiased;
+  font-size: 18px;
 }
 
-#form {
-  width: 58.3333333333%;
-  margin: 0 auto;
+*, *:before, *:after {
+  box-sizing: border-box;
 }
-form .field {
-  width: 100%;
+
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  fill: currentColor;
+}
+
+.icon-paperplane {
+  font-size: 1em;
+  color: white;
+  margin-left: 1px;
+  margin-top: 5px;
+}
+
+.contact-button {
   position: relative;
-  margin-bottom: 15px;
-}
-form .field label {
+  -webkit-perspective: 1000;
+  -webkit-backface-visibility: hidden;
+  -webkit-transform: translate3d(0, 0, 0);
+  color: white;
+  text-decoration: none;
   text-transform: uppercase;
-  position: absolute;
-  top: 0;
-  left: 0;
-  background: #313A3D;
-  width: 100%;
-  padding: 18px 0;
-  font-size: 1.45em;
-  letter-spacing: 0.075em;
-  -webkit-transition: all 333ms ease-in-out;
-  -moz-transition: all 333ms ease-in-out;
-  -o-transition: all 333ms ease-in-out;
-  -ms-transition: all 333ms ease-in-out;
-  transition: all 333ms ease-in-out;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 500;
+  font-size: 1.2em;
+  border: 2px solid white;
+  border-radius: 4px;
+  padding: 20px 60px 20px 55px;
+  transition: 0.3s ease-in-out;
 }
-form .field label + span {
-  font-family: 'SSStandard';
+.contact-button span {
+  text-transform: none;
+  position: absolute;
+  color: #1F3944;
+  top: 20px;
+  left: 30px;
   opacity: 0;
+  transition: all 0s ease 0s;
+}
+.contact-button:hover {
+  transition: 0.3s ease-in-out;
+  border: 2px solid white;
+  border-radius: 50px;
+  background-color: white;
   color: white;
-  display: block;
+}
+.contact-button:hover > span {
+  opacity: 1;
+  transition: all 0.25s ease-in-out 0.1s;
+}
+.contact-button:hover:before {
+  transition: 0.3s ease-in-out;
+  background-color: #FFB82B;
+}
+.contact-button:before, .contact-button:after {
+  content: "";
   position: absolute;
-  top: 12px;
-  left: 7%;
-  font-size: 2.5em;
-  text-shadow: 1px 2px 0 #cd6302;
-  -webkit-transition: all 333ms ease-in-out;
-  -moz-transition: all 333ms ease-in-out;
-  -o-transition: all 333ms ease-in-out;
-  -ms-transition: all 333ms ease-in-out;
-  transition: all 333ms ease-in-out;
+  top: -14px;
+  left: -12px;
+  width: 132px;
+  height: 25px;
 }
-form .field input[type="text"],
-form .field textarea {
-  border: none;
-  background: #E8E9EA;
-  width: 80.5%;
-  margin: 0;
-  padding: 18px 0;
-  padding-left: 19.5%;
-  color: #313A3D;
-  font-size: 1.4em;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+.contact-button:before {
+  border: 2px solid #FFC552;
+  background-color: #1F3944;
+  -webkit-transform: skew(-25deg);
+          transform: skew(-25deg);
+  transition: 0.3s ease-in-out;
 }
-form .field input[type="text"]#msg,
-form .field textarea#msg {
-  height: 18px;
-  resize: none;
-  -webkit-transition: all 333ms ease-in-out;
-  -moz-transition: all 333ms ease-in-out;
-  -o-transition: all 333ms ease-in-out;
-  -ms-transition: all 333ms ease-in-out;
-  transition: all 333ms ease-in-out;
-}
-form .field input[type="text"]:focus, form .field input[type="text"].focused,
-form .field textarea:focus,
-form .field textarea.focused {
-  outline: none;
-}
-form .field input[type="text"]:focus#msg, form .field input[type="text"].focused#msg,
-form .field textarea:focus#msg,
-form .field textarea.focused#msg {
-  padding-bottom: 150px;
-}
-form .field input[type="text"]:focus + label, form .field input[type="text"].focused + label,
-form .field textarea:focus + label,
-form .field textarea.focused + label {
-  width: 18%;
-  background: #FD9638;
-  color: #313A3D;
-}
-form .field input[type="text"].focused + label,
-form .field textarea.focused + label {
-  color: #FD9638;
-}
-form .field:hover label {
-  width: 18%;
-  background: #313A3D;
+.contact-button:after {
+  content: "Available for work";
+  font-size: 0.45em;
+  top: -7px;
+  left: 0px;
   color: white;
-}
-form input[type="submit"] {
-  background: #FD9638;
-  color: white;
-  -webkit-appearance: none;
-  border: none;
-  text-transform: uppercase;
-  position: relative;
-  padding: 13px 50px;
-  font-size: 1.4em;
-  letter-spacing: 0.1em;
-  font-family: 'Lato', sans-serif;
-  font-weight: 300;
-  -webkit-transition: all 333ms ease-in-out;
-  -moz-transition: all 333ms ease-in-out;
-  -o-transition: all 333ms ease-in-out;
-  -ms-transition: all 333ms ease-in-out;
-  transition: all 333ms ease-in-out;
-}
-form input[type="submit"]:hover {
-  background: #313A3D;
-  color: #FD9638;
-}
-form input[type="submit"]:focus {
-  outline: none;
-  background: #cd6302;
 }

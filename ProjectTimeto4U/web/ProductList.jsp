@@ -33,7 +33,7 @@
     <body>
         <jsp:include page="include/NavBarBackColor.jsp"/>
         <h1>Product List</h1>
-        ${message}
+        ${messagePro}
         <div class="container">
             <div class="row">
                 <c:forEach items="${products}" var="p">

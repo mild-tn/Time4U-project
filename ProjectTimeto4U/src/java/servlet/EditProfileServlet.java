@@ -65,7 +65,8 @@ public class EditProfileServlet extends HttpServlet {
             customerJpaController.edit(customer1);
             System.out.println(fname + "-" + lname + "-" + email + "-" + tel + "-" + sex + "-" + address + "-" + city + "-" + province + "-" + country + "-" + postCode + "-" + accountSession);
             System.out.println("edited");
-            getServletContext().getRequestDispatcher("/EditProfile.jsp").forward(request, response);
+            response.sendRedirect("Profile");
+            return;
           } catch (NonexistentEntityException ex) {
             Logger.getLogger(EditProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
           } catch (RollbackFailureException ex) {

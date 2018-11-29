@@ -147,17 +147,16 @@ public class Payment implements Serializable {
         this.ordernumber = ordernumber;
     }
     
-    public boolean payMent(OrdersCustomer ordernumber,int pay) {
+    public boolean payMent(OrdersCustomer ordernumber,double pay) {
         if (pay > 0 && this.balance >= pay) {
-            this.ordernumber = ordernumber;
-            this.balance -= pay;
+            this.balance =(int) (this.balance -  pay);
             return true;
         } else {
             return false;
         }
     }
-
-
+    
+   
     @Override
     public int hashCode() {
         int hash = 0;
