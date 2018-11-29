@@ -13,7 +13,7 @@ body {
   width: 80%;
   min-width: 620px;
   max-width: 700px;
-  height: 400px;
+  height: 450px;
   margin: 50px auto;
   background:whitesmoke;
   border-radius: 9px;
@@ -23,7 +23,7 @@ body {
 .icing,
 .dough {
   float: left;
-  padding: 20px;
+  padding: 15px;
   box-sizing: border-box;
   height: 100%;
   display: flex;

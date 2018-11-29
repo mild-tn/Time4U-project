@@ -87,6 +87,10 @@ public class Payment implements Serializable {
         this.balance = balance;
     }
 
+    public Payment(OrdersCustomer ordernumber) {
+        this.ordernumber = ordernumber;
+    }
+    
     public String getCardnumber() {
         return cardnumber;
     }
@@ -143,8 +147,9 @@ public class Payment implements Serializable {
         this.ordernumber = ordernumber;
     }
     
-    public boolean payMent(int pay) {
+    public boolean payMent(OrdersCustomer ordernumber,int pay) {
         if (pay > 0 && this.balance >= pay) {
+            this.ordernumber = ordernumber;
             this.balance -= pay;
             return true;
         } else {

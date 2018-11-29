@@ -21,6 +21,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
 import model.Account;
 import model.Register;
@@ -31,6 +32,7 @@ import model.Register;
  */
 public class ActivateKeyServlet extends HttpServlet {
 
+<<<<<<< HEAD
   @PersistenceUnit(unitName = "ProjectTimeto4UPU")
   EntityManagerFactory emf;
   @Resource
@@ -70,6 +72,47 @@ public class ActivateKeyServlet extends HttpServlet {
           //Alert BY JS
           request.setAttribute("messageActivate", "Wrong!!!!! Try Again");
           response.sendRedirect("ActivateAccount.jsp");
+=======
+    @PersistenceUnit(unitName = "ProjectTimeto4UPU")
+    EntityManagerFactory emf;
+    @Resource
+    UserTransaction utx;
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpSession session = request.getSession();
+       String email = (String) session.getAttribute("emailRe");
+        String activateKey = request.getParameter("activatekey");
+        boolean isActivated = false;
+        if (email != null && activateKey != null && activateKey.length() > 0) {
+            RegisterJpaController regJpaCtrl = new RegisterJpaController(utx, emf);
+            AccountJpaController accountJpaCtrl = new AccountJpaController(utx, emf);
+            Register register = regJpaCtrl.findByEmail(email);
+            if (register != null) {
+                if (activateKey.equals(register.getActivatekey())) {
+                    register.setActivatedate(new Date());
+                    Account account = new Account(email,register.getPassword(),register);
+                    try {
+                        regJpaCtrl.edit(register);
+                        accountJpaCtrl.create(account);
+                        isActivated = true;
+                        request.setAttribute("isActivated", isActivated);
+                        getServletContext().getRequestDispatcher("/HomePage.jsp").forward(request, response);
+                    } catch (NonexistentEntityException ex) {
+                        Logger.getLogger(ActivateKeyServlet.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (RollbackFailureException ex) {
+                        Logger.getLogger(ActivateKeyServlet.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (Exception ex) {
+                        Logger.getLogger(ActivateKeyServlet.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }else {
+                //Alert BY JS
+                request.setAttribute("messageActivate", "Wrong!!!!! Try Again");
+                response.sendRedirect("ActivateAccount.jsp");
+            }
+            } else{
+                getServletContext().getRequestDispatcher("/index.html").forward(request, response);
+            }
+>>>>>>> effcc2ddd5e69d477c291e9931f9818f2e78b6ec
         }
       } else {
         getServletContext().getRequestDispatcher("/index.html").forward(request, response);
