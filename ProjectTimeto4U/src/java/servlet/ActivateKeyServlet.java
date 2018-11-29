@@ -31,88 +31,91 @@ import model.Register;
  */
 public class ActivateKeyServlet extends HttpServlet {
 
-    @PersistenceUnit(unitName = "ProjectTimeto4UPU")
-    EntityManagerFactory emf;
-    @Resource
-    UserTransaction utx;
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-       String email = request.getParameter("email");
-        String activateKey = request.getParameter("activatekey");
-        boolean isActivated = false;
-        if (email != null && activateKey != null && activateKey.length() > 0) {
-            RegisterJpaController regJpaCtrl = new RegisterJpaController(utx, emf);
-            AccountJpaController accountJpaCtrl = new AccountJpaController(utx, emf);
-            Register register = regJpaCtrl.findByEmail(email);
-            if (register != null) {
-                System.out.println("regisssssss : " + register.getRegisterId());
-                if (activateKey.equals(register.getActivatekey())) {
-                    register.setActivatedate(new Date());
-                    Account account = new Account(email,register.getPassword(),register);
-                    System.out.println(" register ID : " + register.getEmail());
-                    System.err.println("Re" + register.getPassword());
-                    System.out.println("acoount" + account);
-                    try {
-                        regJpaCtrl.edit(register);
-                        accountJpaCtrl.create(account);
-                        isActivated = true;
-                        request.setAttribute("isActivated", isActivated);
-                        getServletContext().getRequestDispatcher("/HomePage.jsp").forward(request, response);
-                    } catch (NonexistentEntityException ex) {
-                        Logger.getLogger(ActivateKeyServlet.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (RollbackFailureException ex) {
-                        Logger.getLogger(ActivateKeyServlet.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (Exception ex) {
-                        Logger.getLogger(ActivateKeyServlet.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }else {
-                //Alert BY JS
-                request.setAttribute("messageActivate", "Wrong!!!!! Try Again");
-                response.sendRedirect("ActivateAccount.jsp");
-            }
-            } else{
-                getServletContext().getRequestDispatcher("/index.html").forward(request, response);
-            }
+  @PersistenceUnit(unitName = "ProjectTimeto4UPU")
+  EntityManagerFactory emf;
+  @Resource
+  UserTransaction utx;
+
+  protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+          throws ServletException, IOException {
+    String email = request.getParameter("email");
+    String activateKey = request.getParameter("activatekey");
+    boolean isActivated = false;
+    if (email != null && activateKey != null && activateKey.length() > 0) {
+      RegisterJpaController regJpaCtrl = new RegisterJpaController(utx, emf);
+      AccountJpaController accountJpaCtrl = new AccountJpaController(utx, emf);
+      Register register = regJpaCtrl.findByEmail(email);
+      if (register != null) {
+        System.out.println("regisssssss : " + register.getRegisterId());
+        if (activateKey.equals(register.getActivatekey())) {
+          register.setActivatedate(new Date());
+          Account account = new Account(email, register.getPassword(), register);
+          System.out.println(" register ID : " + register.getEmail());
+          System.err.println("Re" + register.getPassword());
+          System.out.println("acoount" + account);
+          try {
+            regJpaCtrl.edit(register);
+            accountJpaCtrl.create(account);
+            isActivated = true;
+            request.setAttribute("isActivated", isActivated);
+            getServletContext().getRequestDispatcher("/HomePage.jsp").forward(request, response);
+          } catch (NonexistentEntityException ex) {
+            Logger.getLogger(ActivateKeyServlet.class.getName()).log(Level.SEVERE, null, ex);
+          } catch (RollbackFailureException ex) {
+            Logger.getLogger(ActivateKeyServlet.class.getName()).log(Level.SEVERE, null, ex);
+          } catch (Exception ex) {
+            Logger.getLogger(ActivateKeyServlet.class.getName()).log(Level.SEVERE, null, ex);
+          }
+        } else {
+          //Alert BY JS
+          request.setAttribute("messageActivate", "Wrong!!!!! Try Again");
+          response.sendRedirect("ActivateAccount.jsp");
         }
+      } else {
+        getServletContext().getRequestDispatcher("/index.html").forward(request, response);
+      }
+    } else {
+      System.out.println("test");
     }
+  }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
+  // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+  /**
+   * Handles the HTTP <code>GET</code> method.
+   *
+   * @param request servlet request
+   * @param response servlet response
+   * @throws ServletException if a servlet-specific error occurs
+   * @throws IOException if an I/O error occurs
+   */
+  @Override
+  protected void doGet(HttpServletRequest request, HttpServletResponse response)
+          throws ServletException, IOException {
+    processRequest(request, response);
+  }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
+  /**
+   * Handles the HTTP <code>POST</code> method.
+   *
+   * @param request servlet request
+   * @param response servlet response
+   * @throws ServletException if a servlet-specific error occurs
+   * @throws IOException if an I/O error occurs
+   */
+  @Override
+  protected void doPost(HttpServletRequest request, HttpServletResponse response)
+          throws ServletException, IOException {
+    processRequest(request, response);
+  }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+  /**
+   * Returns a short description of the servlet.
+   *
+   * @return a String containing servlet description
+   */
+  @Override
+  public String getServletInfo() {
+    return "Short description";
+  }// </editor-fold>
 
 }
